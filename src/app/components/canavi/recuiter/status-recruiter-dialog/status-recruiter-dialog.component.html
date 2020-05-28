@@ -1,0 +1,19 @@
+<h2 mat-dialog-title style="text-align: center;">Đổi Trạng thái công ty</h2>
+
+
+<mat-dialog-content>
+<!-- (selectionChange)='onChangeStatus(element.status,element.id)' -->
+    <mat-form-field style="padding: 10px;">
+        <mat-label>Trạng thái</mat-label>
+        <mat-select [(ngModel)]="data.status">
+            <mat-option *ngFor="let status of statusCompany" [value]="status.value">
+                {{status.viewValue}}
+            </mat-option>
+        </mat-select>   
+    </mat-form-field>
+
+</mat-dialog-content>
+<div mat-dialog-actions >
+    <button  mat-button (click)="onNoClick()">Không</button>
+    <button  mat-button [mat-dialog-close]="data.animal" (click)="ChangeStatus()" cdkFocusInitial>Đồng ý</button>
+</div>

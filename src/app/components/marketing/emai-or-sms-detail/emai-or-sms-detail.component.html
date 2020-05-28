@@ -1,0 +1,75 @@
+<h4 class="block font-blue sbold">
+  Email/Sms Detail</h4>
+
+<div class="note note-info ">
+  <em class="block sbold font-red">{{emailSms.email}}<br></em>
+  <em class="block sbold font-red">{{emailSms.phoneNumber}}</em>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- BEGIN VALIDATION STATES-->
+      <div class="portlet-body">
+        <div class="table-scrollable">
+          <table class="table table-hover">
+            <tbody>
+              <tr>
+                <td> Type </td>
+                <td>{{emailSms.typeName}}</td>
+              </tr>
+              <tr>
+                <td>Message Type</td>
+                <td>{{emailSms.messageTypeName}}</td>
+              </tr>
+              <tr>
+                <td>Phone Number</td>
+                <td>{{emailSms.phoneNumber}}</td>
+              </tr>
+              <tr>
+                <td>Email</td>
+                <td>{{emailSms.email}}</td>
+              </tr>
+              <tr>
+                <td>Title</td>
+                <td>{{emailSms.title}}</td>
+              </tr>
+              <tr>
+                <td>Content</td>
+                <td [innerHTML]="emailSms.content"></td>
+              </tr>
+              <tr>
+                <td>Template</td>
+                <td>{{emailSms.template}}</td>
+              </tr>
+              <tr>
+                <td>Status</td>
+                <!-- <td>{{emailSms.statusName}}</td> -->
+                <td>
+                  <div class="form-group" *ngFor="let statusName of emailSms.statusNames">
+                    <span class="label label-sm label-success">{{statusName}}</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>CreatedDateUtc</td>
+                <td>{{emailSms.createdDateUtc | date: 'dd/MM/yyyy'}}</td>
+              </tr>
+              <tr>
+                <td>UpdatedDateUtc</td>
+                <td>{{emailSms.updatedDateUtc | date: 'dd/MM/yyyy'}}</td>
+              </tr>
+              <tr>
+                <td>VerifyId</td>
+                <td>{{emailSms.verifyId}}</td>
+              </tr>
+              <tr>
+                <td>SendDate</td>
+                <td>{{emailSms.sendDate}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- END VALIDATION STATES-->
+    </div>
+  </div>
+</div>

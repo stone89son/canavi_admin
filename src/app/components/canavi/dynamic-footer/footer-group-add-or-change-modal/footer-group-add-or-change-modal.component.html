@@ -1,0 +1,52 @@
+<!-- Modal -->
+<div class="modal fade" id="footer-group-add-or-change-modal" tabindex="-1" role="dialog" aria-labelledby="footerGroupAddOrChangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="currentId == null || currentId == ''" class="modal-title">Thêm mới nhóm công việc </h5>
+          <h5 *ngIf="currentId != null && currentId != ''" class="modal-title">Chỉnh sửa nhóm công việc </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onAddOrChange(footerGroupAddOrChangeForm);" autocomplete="off" #footerGroupAddOrChangeForm="ngForm">
+            <div class="form-group">
+                <label for="footerGroupName">Tên nhóm*</label>
+                <input type="text" class="form-control" id="footerGroupName" name="name" [(ngModel)]="footerGroup.name" required
+                placeholder="Việc làm theo ..." minlength="1" maxlength="1024" #footerGroupName="ngModel" />
+                <!-- <span class="help-block">
+                    <p class="required">
+                        Tên nhóm bắt buộc phải điền
+                    </p>
+                    <p class="required" *ngIf="">
+                        Tên nhóm chỉ trong khoảng 1 tới 1024 ký tự
+                    </p>
+                </span> -->
+            </div>
+            <div class="form-group">
+                <label for="footerGroupDestinationLink">Đường dẫn</label>
+                <input type="text" class="form-control" id="footerGroupDestinationLink" name="destinationLink" [(ngModel)]="footerGroup.destinationLink"
+                placeholder="https://canavi.com/viec-lam-theo-..." minlength="1" maxlength="1024" #footerGroupDestinationLink="ngModel" />
+            </div>
+            <div class="form-group" *ngIf="currentId != null && currentId != ''">
+                <label for="footerGroupStatus">Trạng thái</label>
+                <select class="form-control" id="footerGroupStatus" name="status" [(ngModel)]="footerGroup.status" #footerGroupStatus="ngModel">
+                  <option value="1">Đang hoạt động</option>
+                  <option value="-1">Đã xóa</option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="currentId != null && currentId != ''">
+                <label for="footerGroupDisplayOrder">Thứ tự hiển thị</label>
+                <input type="number" class="form-control" id="footerGroupDisplayOrder" name="displayOrder" [(ngModel)]="footerGroup.displayOrder"
+                minlength="1" maxlength="1024" #footerGroupDisplayOrder="ngModel" />
+            </div>
+            <div class="clearfix">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: left;">Hủy</button>
+                <button type="submit" class="btn btn-primary" style="float: right;">Lưu lại</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>

@@ -1,0 +1,109 @@
+<div id="modal-recuiter-detail" class="modal  fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content" style="width: 800px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Recuiter Detail</h4>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="col-md-2 img-dt no-padding">
+                                <app-file-upload #imageControl maxFiles="1" maxSize="5" fileExt="JPG, GIF, PNG"
+                                    imageUrl="{{dataDetail?.logo}}" imagePath="{{dataDetail?.logo}}">
+                                </app-file-upload>
+                            </div>
+                            <div class="col-md-10 ip-dt">
+                                <div class=" align-middle">
+                                    <input type="text" class="form-control" [(ngModel)]="dataDetail.name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr *ngFor="let it of dataDetail.attributes">
+                                                <td>{{it.attribute.name}}</td>
+                                                <td>
+                                                    <div [ngSwitch]="it.type">
+                                                        <input class="form-control" type="text" *ngSwitchCase="'1'"
+                                                            [(ngModel)]="it.valueString" />
+
+                                                        <select class="form-control" *ngSwitchCase="'2'" [(ngModel)]="it.attributeValueId">
+                                                            <option *ngFor="let it1 of it.attribute.attributeValues"
+                                                                value={{it1.id}}>
+                                                                {{it1.value}}
+                                                            </option>
+                                                        </select>
+
+                                                        <div *ngSwitchCase="'3'" style="height: 300px; overflow: auto">
+                                                            <div class="md-checkbox-list">
+                                                                <div style="padding-bottom: 10px">
+                                                                    <input type="text" [(ngModel)]="it.userFilter.value"
+                                                                        placeholder="value" style="height: 35px; width: 200px;">
+                                                                </div>
+                                                                <div class="md-checkbox" *ngFor="let it2 of it.attribute.attributeValues| filterBy: it.userFilter">
+                                                                    <input type="checkbox" id="{{it2.id}}" class="md-check"
+                                                                        (change)="changeValueCb($event,it)" [(ngModel)]="it2.isCheck">
+                                                                    <label for="{{it2.id}}">
+                                                                        <span class="inc"></span>
+                                                                        <span class="check"></span>
+                                                                        <span class="box"></span> {{it2.value}} </label>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" *ngSwitchCase="'4'">
+                                                            <div class="col-md-5">
+                                                                <input type="text" class="form-control" [(ngModel)]="it.minValue">
+                                                            </div>
+                                                            <div class="col-md-2 text-center">
+                                                                -
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <input type="text" class="form-control" [(ngModel)]="it.maxValue">
+                                                            </div>
+                                                        </div>
+
+                                                        <input class="form-control" type="number" *ngSwitchCase="'5'"
+                                                            [(ngModel)]="it.valueNumber" />
+
+                                                        <div *ngSwitchCase="'6'">
+                                                            <div class="input-group input-medium date date-picker margin-bottom-5"
+                                                                data-date-format="mm/dd/yyyy">
+                                                                <input type="text" class="form-control" name="day"
+                                                                    maxlength="50" />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-sm default" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngSwitchCase="'7'">
+                                                            <ckeditor [config]="config" [(ngModel)]="it.valueString"></ckeditor>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue btn-outline" (click)="saveRecuiter()">Save</button>
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

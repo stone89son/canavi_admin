@@ -1,0 +1,79 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-settings font-red"></i>
+          <span class="caption-subject font-red sbold uppercase">Candidate payment request</span>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-11">
+            <label>Payment type</label>
+            <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.paymentType" name="paymentType"
+              #paymentType="ngModel">
+              <option *ngFor="let item of paymentTypes" [ngValue]="item.value">{{item.text}}</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <label class="col-md-12" style="color: #fff">Search</label>
+            <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+          </div>
+        </div>
+        <div class="table-scrollable">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <th style="width: 20%"> # </th>
+                <th> Candidate </th>
+                <th> Job </th>
+                <th> Payment target id </th>
+                <th> Payment type </th>
+                <th> Status </th>
+                <th style="width: 13%"> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of candidatePaymentRequests | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                <td>{{item.id}}</td>
+                <td> {{item.candidateName}} </td>
+                <td> {{item.jobName}} </td>
+                <td> {{item.paymentTargetId}} </td>
+                <td> {{item.paymentTypeName}} </td>
+                <td> {{item.statusName}} </td>
+                <td>
+                  <button (click)="onAccepted(item.id)" type="button" *ngIf="item.isShowButtonAccepted" class="btn btn-blue mt-ladda-btn ladda-button">
+                    <i class="fa fa-check"></i>
+                    <span class="ladda-label"> Accepted</span>
+                  </button>
+                  <button (click)="onReject(item.id)" type="button" *ngIf="item.isShowButtonReject" class="btn btn-danger mt-ladda-btn ladda-button">
+                    <i class="fa fa-close"></i>
+                    <span class="ladda-label"> Reject</span>
+                  </button>
+                  <button (click)="onCancel(item.id)" type="button" *ngIf="item.isShowButtonCancel" class="btn btn-danger mt-ladda-btn ladda-button">
+                    <i class="fa fa-ban"></i>
+                    <span class="ladda-label"> Cancel</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 col-sm-5">
+          <div class="dataTables_info">{{totalRow}} items</div>
+        </div>
+        <div class="col-md-7 col-sm-7 text-right">
+          <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true"
+            autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <!-- END SAMPLE TABLE PORTLET-->
+  </div>
+</div>

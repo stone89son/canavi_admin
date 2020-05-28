@@ -1,0 +1,6 @@
+.control-label .required, .form-group .required{
+    color: red;
+    font-size: 12px;
+    margin: 0;
+    font-weight: bold;
+}

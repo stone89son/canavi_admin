@@ -1,0 +1,8 @@
+.img-dt {height: 140px;}
+.txt-dt{padding-top:62px; }
+.ip-dt{padding-top:55px;}
+.bt-dt{margin-top:160px;}
+.no-padding {padding: 0;}
+.cdk-global-overlay-wrapper, .cdk-overlay-container, .cdk-overlay-pane {
+    z-index: 99999 !important;
+  }

@@ -1,0 +1,72 @@
+<div id="recuiter-payment-history" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full">
+      <div class="modal-content">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <!-- BEGIN SAMPLE TABLE PORTLET-->
+              <div class="portlet light bordered">
+                <div class="portlet-title">
+                  <div class="caption">
+                    <i class="icon-settings font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Payment history</span>
+                  </div>
+                </div>
+                <div class="portlet-body">
+                  <!-- <div class="row">
+                    <div class="col-md-11">
+                      <label>Title</label>
+                      <input type="text" class="form-control" [(ngModel)]="searchParams.title" placeholder="Enter keyword">
+                    </div>
+                    <div class="col-md-1">
+                      <label class="col-md-12" style="color: #fff">Search</label>
+                      <button type="button" class="btn blue" (click)="onGetByRecuiterId()"><i class="fa fa-search"></i>
+                        Search</button>
+                    </div>
+                  </div> -->
+                  <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                      <thead>
+                        <tr>
+                          <th> STT </th>
+                          <th> Payment amount </th>
+                          <th> Payment type </th>
+                          <th> Status </th>
+                          <th> Transaction code </th>
+                          <th> Payment target </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of recuiterPaymentHistorys | paginate: {id:'pagingControlPaymentHistory', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                          <td> {{i+1}}</td>
+                          <td> {{item.paymentAmount}} </td>
+                          <td> {{item.paymentTypeName}} </td>
+                          <td> {{item.statusName}} </td>
+                          <td> {{item.transactionCode}} </td>
+                          <td> {{item.paymentTarget}} </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5 col-sm-5">
+                    <div class="dataTables_info">{{totalRow}} items</div>
+                  </div>
+                  <div class="col-md-7 col-sm-7 text-right">
+                    <pagination-controls id="pagingControlPaymentHistory" (pageChange)="pageChangedPaymentHistorys($event)" maxSize="5"
+                      directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+                    </pagination-controls>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+                </div>
+              </div>
+              <!-- END SAMPLE TABLE PORTLET-->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

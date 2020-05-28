@@ -1,0 +1,434 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Recuiter Crawler</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm active">
+                            <input type="radio" name="options" class="toggle" id="option1">Actions
+                        </label>
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm">
+                            <input type="radio" name="options" class="toggle" id="option2">Settings
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Website</label>
+                        <select class="form-control" id="websiteId" [(ngModel)]="searchParams.websiteId">
+                            <option value="">Lựa chọn Website</option>
+                            <option *ngFor="let item of dataWebsite" [ngValue]="item.id">{{item.name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>Status</label>
+                        <select class="form-control" id="statusId" [(ngModel)]="searchParams.status">
+                            <option value="1">Active</option>
+                            <option value="2">Deactive</option>
+                            <option value="3">New</option>
+                            <option value="-1">Deleted</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>MapStatus</label>
+                        <select class="form-control" id="mapstatusId" [(ngModel)]="searchParams.mapstatus">
+                            <option value="0">NotMap</option>
+                            <option value="1">Mapped</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Recuiter Name</label>
+                        <input type="text" class="form-control" [(ngModel)]="searchParams.name" placeholder="Name">
+                    </div>
+                    <div class="col-md-4">
+                        <label>Attribute
+                        </label>
+                        <input type="text" class="form-control" name="attributeId" [(ngModel)]="searchParams.attributeId"
+                            minlength="1" maxlength="50" #attributeId="ngModel" style="display: none" />
+                        <select class="form-control form-filter input-sm" id="attributeIdAutocomplete">
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Attribute value
+                        </label>
+                        <!-- <input type="text" class="form-control" name="attributeValueId" [(ngModel)]="searchParams.attributeValueId"
+                            minlength="1" maxlength="50" #attributeValueId="ngModel" style="display: none" /> -->
+                        <select class="form-control form-filter input-sm" id="attributeValueIdAutocomplete"  multiple="multiple">
+                        </select>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <label class="col-md-12" style="color: #fff">Search</label>
+                        <button type="button" class="btn blue btn-outline" (click)="onSearch()">Search</button>
+                    </div>
+                    <div class="col-md-2" style="margin-left: -50px">
+                        <label _ngcontent-c6="" class="col-md-12" style="color: #fff">Export</label>
+                        <button type="button" class="btn btn-outline blue" (click)="onShowFormExport()">Export
+                            excel</button>
+                    </div>
+                </div>
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Logo </th>
+                                <th> Name </th>
+                                <th> Website </th>
+                                <th> Map Status</th>
+                                <th> List Job</th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of data | paginate: {id:'pg', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                                <td> {{item.id}} </td>
+                                <td> <img [src]="item.logo" width="120" height="120" style="background: #000" alt="{{item.id}}"> </td>
+                                <td> {{item.name}} </td>
+                                <td> {{item.url}} </td>
+                                <td>
+                                    <label *ngIf="item.mapStatus == 1">mapped</label>
+                                    <label *ngIf="item.mapStatus == 0">not map</label>
+                                </td>
+                                <td>
+                                    <a href="javascript:void(0);" (click)="onShowJobForm(item.id, item.mapStatus)" class="btn btn-warning mt-ladda-btn ladda-button" data-style="zoom-in">
+                                        <span class="ladda-label">View</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <span [ngSwitch]="item.mapStatus">
+                                        <a href="javascript:;" class="btn yellow btn-sm" *ngSwitchCase="1"
+                                            (click)="onShowDetailRecuiterCanavi(item.id)">
+                                            <i class="fa fa-exchange"></i> View Or Edit Recuiter </a>
+                                        <a href="javascript:;" class="btn blue btn-sm" *ngSwitchCase="0"
+                                            (click)="onShowMappingForm(item.id)">
+                                            <i class="fa fa-exchange"></i> Map </a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <div class="dataTables_info">{{totalRow}} items</div>
+
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                    <pagination-controls id="pg" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true"
+                        autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="modal-job" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-full" style="width: 100%; height: -webkit-fill-available;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <job-crawler #job></job-crawler>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="modal-mapping" class="modal fade" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                <h4 class="modal-title">Mapping Recuiter</h4>
+            </div>
+            <div class="modal-body col-md-12">
+                <div class="col-md-5">
+                    <div class="row" style="padding: 50px 0; ">
+                        <div class="col-md-2 img-dt no-padding">
+                            <img class="img-responsive" [src]="objectItem.logo" style="height: 125px; width: 125px;" />
+                        </div>
+                        <div class="col-md-10 txt-dt">
+                            <b class=" align-middle">{{objectItem.name}}</b>
+                        </div>
+                        <div class="col-md-12">
+                            <!-- <app-file-upload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG" imageUrl="{{objectItem.logo}}">
+                            </app-file-upload> -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-picture"></i>Recuiter Attribute Crawler</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"> </a>
+                                    <a href="javascript:;" class="reload"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr *ngFor="let item of objectItem.attributes">
+                                                <td>{{item.attribute.name}}</td>
+                                                <td [innerHTML]="item.attributeValue.value"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1" style="text-align: center;">
+                    <a href="javascript:;" class="btn blue btn-sm bt-dt" (click)="switchMap(objectItem)">
+                        <i class="fa fa-exchange"></i> Map
+                    </a>
+                </div>
+                <div class="col-md-6" [hidden]="!paramMapping.RefCrawlerRecuiterId">
+                    <div class="row" style="padding: 50px 0; ">
+                        <div class="col-md-12">
+                            <div class="col-md-2 img-dt no-padding">
+                                <app-file-upload #imageControl maxFiles="1" maxSize="5" fileExt="JPG, GIF, PNG"
+                                    imageUrl="{{objectItem?.logo}}" imagePath="{{objectItem?.logo}}">
+                                </app-file-upload>
+                            </div>
+                            <div class="col-md-10 ip-dt">
+                                <div class=" align-middle">
+                                    <input type="text" class="form-control"
+                                        style="text-align: center; font-weight: bold;"
+                                        [(ngModel)]="paramMapping.Name" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="portlet box yellow">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-picture"></i> Recuiter Attribute Canavi
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"> </a>
+                                    <a href="javascript:;" class="reload"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    Số điện thoại
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="number" [(ngModel)]="paramMapping.Phone" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    Email
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" [(ngModel)]="paramMapping.Email" />
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td>
+                                                    Địa Chỉ
+                                                </td>
+                                                <td>
+                                                    <input class="form-control" type="text" [(ngModel)]="paramMapping.Address" />
+                                                </td>
+                                            </tr>
+
+
+                                            <tr *ngFor="let it of paramMapping.Attributes">
+                                                <td>{{it.Name}}</td>
+                                                <td>
+                                                    <div [ngSwitch]="it.Type">
+                                                        <input class="form-control" type="text" *ngSwitchCase="'1'"
+                                                            [(ngModel)]="it.ValueString" />
+
+                                                        <select class="form-control" *ngSwitchCase="'2'"
+                                                            [(ngModel)]="it.AttributeValueId">
+                                                            <option *ngFor="let it1 of it.ListTypeValue"
+                                                                value={{it1.id}}>
+                                                                {{it1.value}}
+                                                            </option>
+                                                        </select>
+
+                                                        <div *ngSwitchCase="'3'" style="height: 300px; overflow: auto">
+                                                            <div class="md-checkbox-list">
+                                                                <div style="padding-bottom: 10px">
+                                                                    <input type="text" [(ngModel)]="it.userFilter.value"
+                                                                        placeholder="value"
+                                                                        style="height: 35px; width: 200px;">
+                                                                </div>
+                                                                <div class="md-checkbox"
+                                                                    *ngFor="let it2 of it.ListTypeValue | filterBy: it.userFilter">
+                                                                    <input type="checkbox" id="{{it2.id}}"
+                                                                        class="md-check"
+                                                                        (change)="changeValueCb($event,it)"
+                                                                        [(ngModel)]="it2.isCheck">
+                                                                    <label for="{{it2.id}}">
+                                                                        <span class="inc"></span>
+                                                                        <span class="check"></span>
+                                                                        <span class="box"></span> {{it2.value}} </label>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row" *ngSwitchCase="'4'">
+                                                            <div class="col-md-5">
+                                                                <input type="text" class="form-control"
+                                                                    [(ngModel)]="it.MinValue">
+                                                            </div>
+                                                            <div class="col-md-2 text-center">
+                                                                -
+                                                            </div>
+                                                            <div class="col-md-5">
+                                                                <input type="text" class="form-control"
+                                                                    [(ngModel)]="it.MaxValue">
+                                                            </div>
+                                                        </div>
+
+                                                        <input class="form-control" type="number" *ngSwitchCase="'5'"
+                                                            [(ngModel)]="it.ValueNumber" />
+
+                                                        <div *ngSwitchCase="'6'">
+                                                            <div class="input-group input-medium date date-picker margin-bottom-5"
+                                                                data-date-format="mm/dd/yyyy">
+                                                                <input type="text" class="form-control" name="day"
+                                                                    maxlength="50" />
+                                                                <span class="input-group-btn">
+                                                                    <button class="btn btn-sm default" type="button">
+                                                                        <i class="fa fa-calendar"></i>
+                                                                    </button>
+                                                                </span>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngSwitchCase="'7'">
+                                                            <ckeditor [config]="config" [(ngModel)]="it.ValueString">
+                                                            </ckeditor>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                            <!-- <tr>   
+                                                <td>Ảnh</td>
+                                                <td>
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <div id="uploadAllImages" class="dropzone">
+                                                               <app-multiple-file-upload maxFiles="10" #multipleFileUploadAllItem></app-multiple-file-upload>                                                                
+                                                                <div class="row preview-images" *ngIf="uploadedFiles !=null && uploadedFiles != undefined && uploadedFiles.length > 0">
+                                                                    <div class="col-md-4"
+                                                                        *ngFor="let item of uploadedFiles; let i = index"
+                                                                        [attr.data-index]="i">
+                                                                        <div class="item" style="cursor: pointer;">
+                                                                            <a class="btn btn-danger btn-xs"
+                                                                                (click)="ngDeletePhoto(i);">
+                                                                                <i
+                                                                                    class="fa fa-times-circle-o fa-lg"></i>
+                                                                            </a>
+                                                                            <img width="140" height="140"
+                                                                                src="{{item.fullUrl}}" />
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="alert alert-info alert-dismissable"
+                                                                    *ngIf="multipleFileUpload.uploadedFiles.length === 0">
+                                                                    Chưa có ảnh nào cho sản phẩm này.
+                                                                </div> 
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
+                                            </tr> -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue btn-outline" [disabled]="!paramMapping.RefCrawlerRecuiterId"
+                    (click)="saveMapping()">Save</button>
+                <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup">
+    <recuiter-detail #recuiterDetail></recuiter-detail>
+</div>
+<div class="popup">
+    <div id="export-recuiter" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Chọn trang cần xuất excel</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Từ trang</h4>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn red" type="button" (click)="onMinusPage()"
+                                        [disabled]="searchParams.fromPage == 1"><i class="fa fa-minus"></i></button>
+                                </span>
+                                <input type="text" class="form-control text-center" disabled placeholder="0"
+                                    name="fromPage" [(ngModel)]="searchParams.fromPage" #fromPage="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Tới trang</h4>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-center" disabled placeholder="0"
+                                    name="toPage" [(ngModel)]="searchParams.toPage" #toPage="ngModel">
+                                <span class="input-group-btn">
+                                    <button class="btn blue" (click)="onPlusPage()" type="button"><i
+                                            class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn green" (click)="onExport()">Xuất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

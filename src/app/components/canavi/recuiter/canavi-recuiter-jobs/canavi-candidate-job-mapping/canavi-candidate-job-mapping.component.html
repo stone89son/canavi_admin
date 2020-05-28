@@ -1,0 +1,71 @@
+<div id="candidate-list" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-full">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span class="caption-subject font-red sbold uppercase">Candidates</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="row">
+                  <div class="col-md-5">
+                    <label>Status</label>
+                    <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.jobStatusId"
+                      name="jobStatusId" #jobStatusId="ngModel">
+                      <option *ngFor="let item of jobStatuses" [ngValue]="item.value">{{item.text}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-2">
+                    <label class="col-md-12" style="color: #fff">Search</label>
+                    <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+                  </div>
+                </div>
+                <div class="table-scrollable">
+                  <table class="table table-hover table-light">
+                    <thead>
+                      <tr>
+                        <th> STT </th>
+                        <th style="width: 10%"> Avatar </th>
+                        <th> Candidate </th>
+                        <th> Status </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of candidateJobMappings | paginate: {id:'pagingControlJobs', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                        <td> {{i+1}}</td>
+                        <td> <img src="{{item.avatarCandidateResize}}" /> </td>
+                        <td> {{item.candidateName}} </td>
+                        <td> {{item.jobStatusName}} </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 col-sm-5">
+                  <div class="dataTables_info">{{totalRow}} items</div>
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                  <pagination-controls id="pagingControlJobs" (pageChange)="pageChangedCandidateMapping($event)"
+                    maxSize="5" directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous"
+                    nextLabel="Next">
+                  </pagination-controls>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

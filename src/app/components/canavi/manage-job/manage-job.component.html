@@ -1,0 +1,65 @@
+<h3 class="text-center" style="font-weight: bold;">Quản lý Job</h3>
+<div class="col-lg-9">
+  <mat-form-field class="input-search-recruiter">
+    <input matInput placeholder="Tìm kiếm" [(ngModel)]="keywordSearch">
+  </mat-form-field>
+</div>
+
+<div class="col-lg-3 text-center">
+  <button mat-button class="btn-search-recruiter" (click)="onSearch(keywordSearch,typeSearch)">Tìm kiếm</button>
+</div>
+
+<table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+  
+    <!-- Position Column -->
+    <ng-container matColumnDef="position">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;border: 1px solid #D8D8D8;"> STT </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.position}}
+      </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="jobName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;border: 1px solid #D8D8D8;"> Tên Job
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.nameUser}}
+      </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="companyName">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;border: 1px solid #D8D8D8;"> Tên công ty
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.phoneUser}}
+      </td>
+    </ng-container>
+  
+    <!-- Symbol Column -->
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef style="text-align: center;border: 1px solid #D8D8D8;"> Trạng thái
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.emailUSer}}
+      </td>
+    </ng-container>
+  
+    <!-- Các chức năng -->
+    <ng-container matColumnDef="action">
+      <th mat-header-cell *matHeaderCellDef style="width: 110px;text-align: center;border: 1px solid #D8D8D8;"> Thao tác
+      </th>
+      <td mat-cell *matCellDef="let element" style="width: 110px;border: 1px solid #D8D8D8;text-align: center;">
+        <a href="javascript:void(0)" class="btn btn-success" style="width: 100px;margin: 5px;"
+          (click)="onChangeStatus(3, element.idCompany, element.idUser)">
+          <i class="fas fa-check-circle"></i> Duyệt
+        </a>
+        <a href="javascript:void(0)" class="btn btn-danger" style="width: 100px;margin: 5px;"
+          (click)='onChangeStatus(2, element.idCompany, element.idUser)'>
+          <i class="fas fa-user-times"></i> Từ chối
+        </a>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>

@@ -1,0 +1,59 @@
+<form autocomplete="off" #frmTabCategoryTree="ngForm">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <div class="input-group">
+          <span class="input-group-btn" style="font-size: 14px;">Search:&nbsp;</span>
+          <input type="text" class="form-control" id="search" />
+          <div class="input-group-btn">
+            <button class="btn btn-info" id="clear">Clear</button>
+          </div>
+        </div>
+        <div id="jsCategoryTree"></div>
+      </div>
+      <div class="col-md-8">
+        <div class="tabbable-custom ">
+          <ul class="nav nav-tabs ">
+            <li class="active">
+              <a href="#tab_5_1" data-toggle="tab"> Detail </a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div class="tab-pane active" id="tab_5_1">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table a">
+                      <tbody>
+                        <tr>
+                          <td class="col-md-3"> Main category </td>
+                          <td> {{postCategory.mainCategory}} </td>
+                        </tr>
+                        <tr>
+                          <td class="col-md-3"> Sub category </td>
+                          <td>
+                            <ul class="sub-category">
+                              <li *ngFor="let item of postCategory.subCategories">{{item.text}}</li>
+                            </ul>
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button type="button" class="btn btn-warning" (click)="setTab.emit('tab-1');">Back</button>
+      <button type="button" class="btn btn-success" (click)="onSubmit(frmTabCategoryTree, productCategory)">
+        <i class='fa fa-spinner fa-spin'></i>Next</button>      
+    </div>
+  </div>
+</form>

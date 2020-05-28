@@ -1,0 +1,137 @@
+<div id="email-or-sms-add-or-change" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light portlet-fit portlet-form bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span class="caption-subject font-red sbold uppercase" *ngIf="model.id === undefined">Add email or sms</span>
+                  <span class="caption-subject font-red sbold uppercase" *ngIf="model.id !== undefined && model.id !== '0'">Update
+                    email or sms</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <form autocomplete="off" #frmEmailOrSmsAddOrChange="ngForm">
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <div class="col-md-2">
+                        <label class="control-label">Type
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <select class="form-control" name="type" [(ngModel)]="model.type" #type="ngModel" required>
+                            <option *ngFor="let item of types" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                          <div class="help-block" *ngIf="(type.errors && (type.dirty || type.touched)) || (!formValid && type.errors)">
+                            <p class="required" *ngIf="type.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <label class="control-label">Message Type
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <select class="form-control" name="messageType" [(ngModel)]="model.messageType" #messageType="ngModel" required>
+                            <option *ngFor="let item of messageTypes" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                          <div class="help-block" *ngIf="(messageType.errors && (messageType.dirty || messageType.touched)) || (!formValid && messageType.errors)">
+                            <p class="required" *ngIf="messageType.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row" *ngIf="model.messageType != 0 && model.messageType != 2">
+                    <div class="col-md-12">
+                      <div class="col-md-2">
+                        <label class="control-label">Email
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <input type="text" class="form-control" name="email" placeholder="Địa chỉ hòm thư trực tuyến" [(ngModel)]="model.email" maxlength="50"
+                            #email="ngModel" required />
+                          <div class="help-block" *ngIf="(email.errors && (email.dirty || email.touched)) || (!formValid && email.errors)">
+                            <p class="required" *ngIf="email.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row" *ngIf="model.messageType != 0 && model.messageType == 2">
+                    <div class="col-md-12">
+                      <div class="col-md-2">
+                        <label class="control-label">Phone number
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <input type="text" class="form-control" name="phoneNumber" placeholder="Số điện thoại khách hàng" [(ngModel)]="model.phoneNumber"
+                            maxlength="50" #phoneNumber="ngModel" required />
+                          <div class="help-block" *ngIf="(phoneNumber.errors && (phoneNumber.dirty || phoneNumber.touched)) || (!formValid && phoneNumber.errors)">
+                            <p class="required" *ngIf="phoneNumber.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <div class="col-md-2">
+                        <label class="control-label">Title
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <input type="text" class="form-control" name="title" placeholder="Tiêu đề" [(ngModel)]="model.title" #title="ngModel" required
+                          />
+                          <div class="help-block" *ngIf="(title.errors && (title.dirty || title.touched)) || (!formValid && title.errors)">
+                            <p class="required" *ngIf="title.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <div class="col-md-12">
+                      <div class="col-md-2">
+                        <label class="control-label">Content
+                          <span class="required"> * </span>
+                        </label>
+                      </div>
+                      <div class="col-md-10">
+                        <div class="form-group">
+                          <ckeditor name="content" [(ngModel)]="model.content" #content="ngModel" [config]="config" required></ckeditor>
+                          <div class="help-block" *ngIf="(content.errors && (content.dirty || content.touched)) || (!formValid && content.errors)">
+                            <p class="required" *ngIf="content.errors.required">Thông tin không được để trống</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <div class="text-right">
+                      <button type="button" class="btn btn-success" (click)="onSubmit(frmEmailOrSmsAddOrChange)">
+                        <i class='fa fa-spinner fa-spin'></i>Save</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

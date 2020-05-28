@@ -1,0 +1,199 @@
+<div id="seoDetail-addOrChange" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light portlet-fit portlet-form bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span *ngIf='seoDetail.id==null || id?.length <= 0'
+                    class="caption-subject font-red sbold uppercase">Add</span>
+                  <span *ngIf='seoDetail.id?.length>0' class="caption-subject font-red sbold uppercase">Update</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <form action="#" id="seo-detail-add-or-change" (ngSubmit)="onSave(seoDetailAddOrChange)"
+                  #seoDetailAddOrChange="ngForm" class="form-horizontal">
+                  <div class="form-body">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Type
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" [(ngModel)]="seoDetail.targetType"
+                            name="targetType" #targetType="ngModel" (ngModelChange)="onChange($event)">
+                            <option *ngFor="let item of targetTypes" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="seoDetail.targetType == 2">
+                      <label class="control-label col-md-3">Category
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onClearSelected()">
+                          <i class="fa fa-edit"></i> Clear Selected</a>
+                        <div class="categories"></div>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="seoDetail.targetType == 3">
+                      <label class="control-label col-md-3">Posts
+                      </label>
+                      <div class="col-md-9">
+                        <select class="form-control form-filter input-sm" id="postsAutocomplete">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="seoDetail.targetType == 4 || seoDetail.targetType == 5">
+                      <label class="control-label col-md-3">Jobs
+                      </label>
+                      <div class="col-md-9">
+                        <select class="form-control form-filter input-sm" id="jobIdAutocomplete">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="seoDetail.targetType == 6">
+                      <label class="control-label col-md-3">Recuiters
+                      </label>
+                      <div class="col-md-9">
+                        <select class="form-control form-filter input-sm" id="recuiterIdAutocomplete">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="seoDetail.targetType == 7">
+                      <label class="control-label col-md-3">Keyword
+                      </label>
+                      <div class="col-md-9">
+                        <input class="form-control" type="text" name="keyword" [(ngModel)]="seoDetail.targetId"
+                          #keyword="ngModel" placeholder="Enter keyword" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Slug
+                      </label>
+                      <div class="col-md-9">
+                        <input class="form-control" type="text" name="slugUrl" [(ngModel)]="seoDetail.slugUrl"
+                          #slugUrl="ngModel" placeholder="Enter slug" />
+                        <a href="javascript:void(0)" (click)="createSlug()">Tạo Slug</a>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Meta title
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <input class="form-control" type="text" name="metaTitle" [(ngModel)]="seoDetail.metaTitle"
+                          #metaTitle="ngModel" placeholder="Enter meta title" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Meta description
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <textarea class="form-control" rows="3" placeholder="Enter meta description"
+                          name="metaDescription" [(ngModel)]="seoDetail.metaDescription"
+                          #metaDescription="ngModel"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Meta keyword
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <input class="form-control" type="text" name="metaKeyword" [(ngModel)]="seoDetail.metaKeyword"
+                          #metaKeyword="ngModel" placeholder="Enter meta keyword" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Meta Robots Index
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <label class="radio-inline">
+                            <input type="radio" name="metaRobotsIndex" [(ngModel)]="seoDetail.metaRobotsIndex"
+                              [value]="true" />
+                            Index
+                          </label>
+                        </div>
+                        <div>
+                          <label class="radio-inline">
+                            <input type="radio" name="metaRobotsIndex" [(ngModel)]="seoDetail.metaRobotsIndex"
+                              [value]="false" />
+                            No Index
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Meta Robots Follow
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <label class="radio-inline">
+                            <input type="radio" name="metaRobotsFollow" [(ngModel)]="seoDetail.metaRobotsFollow"
+                              [value]="true" />
+                            Follow
+                          </label>
+                        </div>
+                        <div>
+                          <label class="radio-inline">
+                            <input type="radio" name="metaRobotsFollow" [(ngModel)]="seoDetail.metaRobotsFollow"
+                              [value]="false" />
+                            No Follow
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Canonical URL
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <input class="form-control" type="text" name="canonicalUrl" [(ngModel)]="seoDetail.canonicalUrl"
+                          #canonicalUrl="ngModel" placeholder="Enter canonical url" />
+                      </div>
+                    </div>
+                    <!-- <div class="form-group">
+                      <label class="col-md-3 control-label">
+                        <span> Facebook share image</span>
+                      </label>
+                      <div class="col-md-9">
+                        <app-multiple-file-upload maxFiles="1" #multipleFileUploadAllItem></app-multiple-file-upload>
+                        <div *ngIf="uploadedFiles.length > 0">
+                          <div class="preview-images" *ngFor="let item of uploadedFiles; let i = index"
+                            [attr.data-index]="i">
+                            <img name="FacebookSharingImage" style="width: 180px" src="{{item.fullUrl}}" />
+                            <button class="btn btn-sm btn-danger" type="button" title="Xóa ảnh chia sẻ"
+                              (click)="ngDeletePhoto(i);">
+                              Xóa </button>
+                          </div>
+                        </div>
+                        <br />
+                        <span class="warning italic text-danger">Ảnh nên nhỏ hơn 1mb, kích thước 560x292</span>
+                      </div>
+                    </div> -->
+                  </div>
+                  <div class="form-actions">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-9 text-right">
+                        <button type="submit" class="btn green">Save</button>
+                        <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

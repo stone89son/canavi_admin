@@ -1,0 +1,98 @@
+<h3 class="text-center" style="font-weight: bold;">Campaign</h3>
+
+<div class="col-lg-10">
+    <mat-form-field class="input-search-recruiter">
+      <input matInput placeholder="Tìm kiếm" (keyup)="applyFilter($event.target.value)">
+    </mat-form-field>
+  </div>
+  
+
+  <div class="col-lg-2 text-center">
+    <button mat-button class="btn-search-recruiter" (click)="ShowDialogAddJobCampaign()" >Thêm Job</button>
+  </div>
+
+
+
+
+  
+<table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+    <!-- Position Column -->
+    <ng-container matColumnDef="jobTitle">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;border: 1px solid #D8D8D8;"> Tên job </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.jobTitle}}
+      </td>
+    </ng-container>
+  
+    <!-- Name Column -->
+    <ng-container matColumnDef="companyName">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;border: 1px solid #D8D8D8;"> Tên công ty
+      </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;">
+        {{element.companyName}}
+      </td>
+    </ng-container>
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="candidateCount">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;border: 1px solid #D8D8D8;"> Số lượng ứng viên
+     </th>
+      <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> 
+        <a (click)="ShowDialogListCandidateApply(element.jobId)">{{element.candidateCount}}</a> 
+      </td>
+    </ng-container>
+
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="jobType">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="min-width: 200px;text-align: center;border: 1px solid #D8D8D8;"> Loại công việc </th>
+        <td mat-cell *matCellDef="let element" style="min-width: 200px;text-align: center;border: 1px solid #D8D8D8;">
+          <span *ngIf="element.jobType==1">
+            Việc làm thời vụ
+          </span>
+          <span *ngIf="element.jobType==2">
+            Việc làm Không yêu cầu kinh nghiệm
+          </span>
+          <span *ngIf="element.jobType==3">
+            Việc làm Chuyên môn
+          </span>
+          
+        </td>
+      </ng-container>
+
+  
+    <!-- Weight Column -->
+    <ng-container matColumnDef="location">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;border: 1px solid #D8D8D8;"> Địa điểm ứng tuyển </th>
+        <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;"> {{element.location}}
+        </td>
+      </ng-container>
+
+
+   <!-- Weight Column -->
+   <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;border: 1px solid #D8D8D8;"> Trạng thái </th>
+    <td mat-cell *matCellDef="let element" style="text-align: center;border: 1px solid #D8D8D8;padding: 25px;"> 
+      <mat-form-field style="    width: 100px;">
+        <mat-label>Trạng thái</mat-label>
+        <mat-select [(ngModel)]="element.status" (selectionChange)='changeStatus(element.id,element.status)'>
+            <mat-option [value]="1">
+              Active
+            </mat-option>
+            <mat-option [value]="-1">
+                Đã xóa
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    
+    
+    </td>
+  </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+  

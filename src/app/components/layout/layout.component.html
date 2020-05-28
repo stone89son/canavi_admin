@@ -1,0 +1,47 @@
+<div class="page-wrapper">
+  <!-- BEGIN HEADER -->
+  <app-header></app-header>
+  <!-- END HEADER -->
+
+  <!-- BEGIN HEADER & CONTENT DIVIDER -->
+  <div class="clearfix"> </div>
+  <!-- END HEADER & CONTENT DIVIDER -->
+
+  <!-- BEGIN CONTAINER -->
+  <div class="page-container">
+
+    <!-- BEGIN SIDEBAR -->
+    <div class="page-sidebar-wrapper">
+
+      <!-- BEGIN SIDEBAR -->
+      <div class="page-sidebar navbar-collapse collapse">
+
+        <!-- BEGIN SIDEBAR MENU -->
+        <app-sidebar></app-sidebar>
+        <!-- END SIDEBAR MENU -->
+
+      </div>
+      <!-- END SIDEBAR -->
+
+    </div>
+    <!-- END SIDEBAR -->
+
+    <!-- BEGIN CONTENT -->
+    <div class="page-content-wrapper">
+
+      <!-- BEGIN CONTENT BODY -->
+      <div class="page-content" style="float: left; width: -webkit-fill-available;">
+        <router-outlet></router-outlet>
+      </div>
+      <!-- END CONTENT BODY -->
+
+    </div>
+    <!-- END CONTENT -->
+
+  </div>
+  <!-- END CONTAINER -->
+  
+  <!-- BEGIN FOOTER -->
+  <app-footer></app-footer>
+  <!-- END FOOTER -->
+</div>

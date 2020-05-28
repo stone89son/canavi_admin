@@ -1,0 +1,93 @@
+<div id="recuiter-detail" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-full">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span class="caption-subject font-red sbold uppercase">Detail</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="row">
+                  <div class="col-md-3" style="max-width:180px">
+                    <img src="{{recuiter.logo}}" class="img-responsive pic-bordered" alt="">
+                  </div>
+                  <div class="col-md-9">
+                    <div class="portlet light portlet-fit">
+                      <div class="portlet-title">
+                        <div class="caption">
+                          <i class="icon-user font-blue"></i>
+                          <span class="caption-subject font-blue sbold uppercase">{{recuiter.name}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-3" style="max-width:180px">
+                    <!-- <img src="{{recuiter.logo}}" class="img-responsive pic-bordered" alt=""> -->
+                  </div>
+                  <div class="col-md-9">
+                    <div class="portlet light portlet-fit bordered" *ngFor="let item of recuiter.attributeGroups">
+                      <div class="portlet-title">
+                        <div class="caption">
+                          <i class="fa fa-bars font-blue"></i>
+                          <span class="caption-subject font-blue sbold uppercase">{{item.name}}</span>
+                        </div>
+                      </div>
+                      <div class="portlet-body">
+                        <div class="table-scrollable table-scrollable-borderless">
+                          <table class="table table-hover table-light">
+                            <tbody>
+                              <tr *ngFor="let item1 of item.objectAttributeMappings">
+                                <td class="uppercase" style="width: 30%"> {{item1.attribute.name}} </td>
+                                <div [ngSwitch]="item1.attribute.type">
+                                  <div *ngSwitchCase="'1'">
+                                    <td> {{item1.valueString}} </td>
+                                  </div>
+                                  <div *ngSwitchCase="'2'">
+                                    <td> {{item1.attributeValue?.value}} </td>
+                                  </div>
+                                  <div *ngSwitchCase="'3'">
+                                    <td> {{item1.attributeValue?.value}} </td>
+                                  </div>
+                                  <div *ngSwitchCase="'4'">
+                                    <td> {{item1.minValue}} - {{item1.maxValue}} </td>
+                                  </div>
+                                  <div *ngSwitchCase="'5'">
+                                    <td> {{item1.valueNumber}} </td>
+                                  </div>
+                                  <div *ngSwitchCase="'6'">
+                                    <td> {{item1.valueDateTime}}</td>
+                                  </div>
+                                  <div *ngSwitchCase="'7'">
+                                    <td innerHtml="{{item1.valueString}}"></td>
+                                  </div>
+                                  <div *ngSwitchCase="'8'">
+                                    <td *ngIf="!item1.valueBit">Không</td>
+                                    <td *ngIf="item1.valueBit">Có</td>
+                                  </div>
+                                </div>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

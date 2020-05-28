@@ -1,0 +1,98 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-settings font-red"></i>
+          <span class="caption-subject font-red sbold uppercase">Seo detail</span>
+        </div>
+        <div class="actions">
+          <button (click)="onShowFormAddOrChange('')" type="button" class="btn blue btn-outline">
+            <i class="fa fa-plus"></i>
+            <span class="ladda-label"> Add</span>
+          </button>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-5">
+            <label>Title</label>
+            <input type="text" class="form-control" [(ngModel)]="searchParams.title" placeholder="Enter keyword">
+          </div>
+          <div class="col-md-3">
+            <label>Target type</label>
+            <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.targetType" name="targetType"
+              #targetType="ngModel">
+              <option *ngFor="let item of targetTypes" [ngValue]="item.value">{{item.text}}</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <label class="col-md-12" style="color: #fff">Search</label>
+            <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+          </div>
+        </div>
+        <div class="table-scrollable">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <th> Target Id </th>
+                <th> Target type </th>
+                <th> Target Name </th>
+                <th> SEO Detail </th>
+                <th> </th>
+                <th> Slug </th>
+                <th style="width: 15%"> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of seoDetails | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                <td> {{item.targetId}} </td>
+                <td> {{item.targetTypeName}} </td>
+                <td> {{item.targetName}} </td>
+                <td>
+                  <b>Meta title: </b> <br />
+                  {{item.metaTitle}} <br />
+                  <b>Meta description: </b> <br />
+                  {{item.metaDescription}}
+                </td>
+                <td>
+                  <b>Meta keyword: </b> <br />
+                  {{item.metaKeyword}} <br />
+                  <b>Robots index: </b> <br />
+                  {{item.metaRobotsIndex}} <br />
+                  <b>Robots follow: </b> <br />
+                  {{item.metaRobotsFollow}} <br />
+                </td>
+                <td>{{item.slugUrl}} </td>
+                <td>
+                  <button type="button" (click)="onShowFormAddOrChange(item.id)"
+                    class="btn btn-danger mt-ladda-btn ladda-button">
+                    <i class="fa fa-pencil"></i>
+                    <span class="ladda-label"> Edit</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 col-sm-5">
+          <div class="dataTables_info">{{totalRow}} items</div>
+        </div>
+        <div class="col-md-7 col-sm-7 text-right">
+          <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true"
+            autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+    <!-- END SAMPLE TABLE PORTLET-->
+  </div>
+</div>
+<div class="popup">
+  <app-seo-detail-add-or-update #seoDetailAddOrUpdate (reloadSeoDetail)="onSearch()"></app-seo-detail-add-or-update>
+</div>

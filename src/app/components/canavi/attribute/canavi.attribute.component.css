@@ -1,0 +1,5 @@
+.isActive{
+    background: #7dda88;
+}
+ table tr{cursor: pointer;}
+ table tbody tr:hover{background: #7dda88}

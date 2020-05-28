@@ -1,0 +1,210 @@
+<!-- BEGIN PAGE BAR -->
+<div class="page-bar">
+  <ul class="page-breadcrumb">
+    <li>
+      <a href="#">Home</a>
+      <i class="fa fa-circle"></i>
+    </li>
+    <li>
+      <span>Dashboard</span>
+    </li>
+  </ul>
+  <div class="page-toolbar">
+    <div id="dashboard-report-range" class="pull-right tooltips btn btn-sm" data-container="body"
+      data-placement="bottom" data-original-title="Change dashboard date range">
+      <i class="icon-calendar"></i>&nbsp;
+      <span class="thin uppercase hidden-xs"></span>&nbsp;
+      <i class="fa fa-angle-down"></i>
+    </div>
+  </div>
+</div>
+<!-- END PAGE BAR -->
+<!-- BEGIN PAGE TITLE-->
+<h1 class="page-title"> Admin Dashboard
+  <small>recruiter & candidate</small>
+</h1>
+<!-- END PAGE TITLE-->
+<!-- END PAGE HEADER-->
+<div class="row">
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-green-sharp">
+            <span data-counter="counterup" data-value="0">0</span>
+            <small class="font-green-sharp"> VND</small>
+          </h3>
+          <small>Doanh thu</small>
+        </div>
+        <div class="icon">
+          <i class="icon-pie-chart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-green-sharp">
+            <span data-counter="counterup" data-value="0">0</span>
+            <small class="font-green-sharp"> VND</small>
+          </h3>
+          <small>Job hoàn tất thanh toán</small>
+        </div>
+        <div class="icon">
+          <i class="icon-pie-chart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-green-sharp">
+            <span data-counter="counterup" data-value="0">0</span>
+            <small class="font-green-sharp"> VND</small>
+          </h3>
+          <small>Job thanh toán một phần</small>
+        </div>
+        <div class="icon">
+          <i class="icon-pie-chart"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-red-haze">
+            <span data-counter="counterup" data-value="1349">0</span>
+          </h3>
+          <small>RECRUITER ĐÃ THANH TOÁN</small>
+        </div>
+        <div class="icon">
+          <i class="icon-like"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-red-haze">
+            <span data-counter="counterup" data-value="1349">0</span>
+          </h3>
+          <small>RECRUITER HOÀN TẤT THANH TOÁN</small>
+        </div>
+        <div class="icon">
+          <i class="icon-like"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-4 col-md-3 col-sm-6 col-xs-12">
+    <div class="dashboard-stat2 ">
+      <div class="display">
+        <div class="number">
+          <h3 class="font-red-haze">
+            <span data-counter="counterup" data-value="1349">0</span>
+          </h3>
+          <small>RECRUITER THANH TOÁN MỘT PHẦN</small>
+        </div>
+        <div class="icon">
+          <i class="icon-like"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div id="job-list">
+    <div class="col-md-12">
+      <!-- BEGIN SAMPLE TABLE PORTLET-->
+      <div class="portlet light bordered">
+        <div class="portlet-title">
+          <div class="caption">
+            <i class="icon-settings font-red"></i>
+            <span class="caption-subject font-red sbold uppercase">Jobs</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 col-sm-5">
+            <div class="dataTables_info">{{totalRow}} items</div>
+          </div>
+          <div class="col-md-7 col-sm-7 text-right">
+            <pagination-controls id="pagingControlJobs" (pageChange)="pageChangedJobs($event)" maxSize="5"
+              directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+            </pagination-controls>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div class="table-scrollable">
+            <table class="table table-hover table-light">
+              <thead>
+                <tr>
+                  <th class="col-md-1"> No. </th>
+                  <th class="col-md-1"> JobId </th>
+                  <th class="col-md-3"> Job Title </th>
+                  <th class="col-md-5"> Candidate </th>
+                  <th class="col-md-2"> </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr
+                  *ngFor="let item of candidateJobStatistic | paginate: {id:'pagingControlJobs', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                  <td> {{i+1}}</td>
+                  <td> {{item.job.id}} </td>
+                  <td> {{item.job.title}} </td>
+                  <td>
+                    <div class="row">
+                      <div class="col-md-4" *ngFor="let value of item.jobStatistic; let x = index">
+                        <div class="dashboard-stat2-custom">
+                          <div class="display">
+                            <div class="number">
+                              <h4 class="font-green-sharp">
+                                <span data-counter="counterup">{{value.count}}</span>
+                              </h4>
+                              <small>{{value.jobStatusName}}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <button (click)="onShowFormCandidateMapping(item.job.id)" type="button"
+                      class="btn btn-danger mt-ladda-btn ladda-button">
+                      <i class="fa fa-bars"></i>
+                      <span class="ladda-label"> Candidates</span>
+                    </button>                    
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 col-sm-5">
+            <div class="dataTables_info">{{totalRow}} items</div>
+          </div>
+          <div class="col-md-7 col-sm-7 text-right">
+            <pagination-controls id="pagingControlJobs" (pageChange)="pageChangedJobs($event)" maxSize="5"
+              directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+            </pagination-controls>
+          </div>
+        </div>
+        <!-- <div class="modal-footer">
+          <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+        </div> -->
+      </div>
+      <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+  </div>
+  <div class="popup">
+    <app-canavi-candidate-job-mapping #candidateJobMapping></app-canavi-candidate-job-mapping>    
+  </div>
+</div>

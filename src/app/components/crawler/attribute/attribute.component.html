@@ -1,0 +1,134 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Attribute Crawler</span>
+                </div>
+                <div class="actions">
+                    <div class="btn-group btn-group-devided" data-toggle="buttons">
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm active">
+                            <input type="radio" name="options" class="toggle" id="option1">Actions</label>
+                        <label class="btn btn-transparent red btn-outline btn-circle btn-sm">
+                            <input type="radio" name="options" class="toggle" id="option2">Settings</label>
+                    </div>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Name </th>
+                                <th> Create Date </th>
+                                <th> Create User </th>
+                                <th> List Attribute Value</th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of data | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                                <td>{{item.id}}</td>
+                                <td> {{item.name}} </td>
+                                <td> {{item.createdDateUtc | date: 'dd/MM/yyyy'}} </td>
+                                <td> {{item.updatedUid}} </td>
+                                <td>
+                                    <button (click)="onShowAttributeValueForm(item.id)" type="button" class="btn btn-warning mt-ladda-btn ladda-button"
+                                        data-style="zoom-in">
+                                        <span class="ladda-label">View</span>
+                                    </button>
+
+                                </td>
+                                <td>
+                                    <span [ngSwitch]="item.status">
+                                        <span class="label label-sm label-success" *ngSwitchCase="'1'">
+                                            mapped
+                                        </span>
+                                        <a href="javascript:;" (click)="confirm(item)" class="btn blue btn-sm"
+                                            *ngSwitchCase="'0'">
+                                            <i class="fa fa-exchange"></i> Map </a>
+                                    </span>
+
+                                </td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <div class="dataTables_info">{{totalRow}} items</div>
+
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                    <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5"
+                        directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+<div class="popup">
+    <div id="modal-attribute-value" class="modal fade" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Attribute Value Crawler</h4>
+                </div>
+                <div class="modal-body">
+                    <app-attribute-value #attributeValue></app-attribute-value>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn blue btn-outline">Map All</button>
+                    <button type="button" data-dismiss="modal" class="btn dark btn-outline">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="confirm" class="modal fade" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-full">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="bootbox-close-button close" data-dismiss="modal"
+                        aria-hidden="true">×</button>
+                    <h4 class="modal-title">Mapping Attribute</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="bootbox-body">
+                        <div class="form-group">
+                            <select class="form-control" id="type" [(ngModel)]="type">
+                                <option value="">Lựa chọn Type</option>
+                                <option value="1">Recuiter</option>
+                                <option value="2">Job</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <select class="form-control" id="websiteId" [(ngModel)]="websiteId">
+                                <option value="">Lựa chọn Website</option>
+                                <option *ngFor="let item of dataWebsite" [ngValue]="item.id">{{item.name}}</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <!-- <select class="form-control select2" id="attId" style="width: 100%;">
+                                    </select> -->
+                            <canavi-attribute #canaviattribute (valueChange)="displayCounter($event)"></canavi-attribute>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer"><button type="button" (click)="mapping()" class="btn green">Save</button>
+                    <button type="button" data-dismiss="modal" class="btn red">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

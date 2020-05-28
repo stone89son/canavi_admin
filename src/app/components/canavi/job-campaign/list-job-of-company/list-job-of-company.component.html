@@ -1,0 +1,18 @@
+
+<div *ngIf="isShowJob">
+    <mat-card class="mat-card-job" *ngFor="let item of jobs" (click)="chooseJob(item)" style="width: 100%;display: flex; align-items: center; justify-content: space-between;">
+        <div style="width: 70%;">   
+            {{item.title}}
+        </div>
+        <mat-chip-list aria-label="Fish selection">
+            <mat-chip color="#31708f;" style="color: #31708f;" selected *ngIf="item.status == 1">{{item.statusName}}</mat-chip>
+            <mat-chip color="#31708f;" style="color: #31708f;" selected *ngIf="item.status == 2">{{item.statusName}}</mat-chip>
+            <mat-chip color="#a94442;" style="color: #a94442;" selected *ngIf="item.status == 4">{{item.statusName}}</mat-chip>
+            <mat-chip color="#3c763d;" style="color: #3c763d;" selected *ngIf="item.status == 8">{{item.statusName}}</mat-chip>
+            <mat-chip color="#a94442;" style="color: #a94442;" selected *ngIf="item.status == 16">{{item.statusName}}</mat-chip>
+        </mat-chip-list>
+    </mat-card>
+</div>
+<div  *ngIf="isShowAddJob">
+    <app-job-for-add [jobId]="selectedJob" [jobTitlte]="titleJobSelect" (backForward)="backStep($event)"></app-job-for-add>
+</div>

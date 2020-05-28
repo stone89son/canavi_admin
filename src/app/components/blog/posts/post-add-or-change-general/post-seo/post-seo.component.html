@@ -1,0 +1,113 @@
+<form autocomplete="off" #frmSEOInfo="ngForm">
+  <div class="form-body"> 
+      <div class="form-group">
+          <label class="control-label col-md-3">Slug                        
+          </label>
+          <div class="col-md-9">
+            <input class="form-control" type="text" name="slugUrl" [(ngModel)]="seoDetail.slugUrl"
+              #slugUrl="ngModel" placeholder="Enter slug" />
+              <a href="javascript:void(0)" (click)="createSlug()">Tạo Slug</a>
+          </div>
+        </div>   
+    <div class="form-group">
+      <label class="control-label col-md-3">Meta title
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="metaTitle" [(ngModel)]="seoDetail.metaTitle" #metaTitle="ngModel"
+          placeholder="Enter meta title" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-3">Meta description
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <textarea class="form-control" rows="3" placeholder="Enter meta description" name="metaDescription"
+          [(ngModel)]="seoDetail.metaDescription" #metaDescription="ngModel"></textarea>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-3">Meta keyword
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="metaKeyword" [(ngModel)]="seoDetail.metaKeyword"
+          #metaKeyword="ngModel" placeholder="Enter meta keyword" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-3">Meta Robots Index
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="metaRobotsIndex" [(ngModel)]="seoDetail.metaRobotsIndex" [value]="true" />
+            Index
+          </label>
+        </div>
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="metaRobotsIndex" [(ngModel)]="seoDetail.metaRobotsIndex" [value]="false" />
+            No Index
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-3">Meta Robots Follow
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="metaRobotsFollow" [(ngModel)]="seoDetail.metaRobotsFollow" [value]="true" />
+            Follow
+          </label>
+        </div>
+        <div>
+          <label class="radio-inline">
+            <input type="radio" name="metaRobotsFollow" [(ngModel)]="seoDetail.metaRobotsFollow" [value]="false" />
+            No Follow
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="control-label col-md-3">Canonical URL
+        <span class="required"> * </span>
+      </label>
+      <div class="col-md-9">
+        <input class="form-control" type="text" name="canonicalUrl" [(ngModel)]="seoDetail.canonicalUrl"
+          #canonicalUrl="ngModel" placeholder="Enter canonical url" />
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="col-md-3 control-label">
+        <span> Facebook share image</span>
+      </label>
+      <div class="col-md-9">
+        <app-multiple-file-upload maxFiles="1" #multipleFileUploadAllItem></app-multiple-file-upload>
+        <div *ngIf="uploadedFiles!=null && uploadedFiles.length > 0">
+          <div class="preview-images" *ngFor="let item of uploadedFiles; let i = index" [attr.data-index]="i">
+            <img name="FacebookSharingImage" style="width: 180px" src="{{item.fullUrl}}" />
+            <button class="btn btn-sm btn-danger" type="button" title="Xóa ảnh chia sẻ" (click)="ngDeletePhoto(i);">
+              Xóa </button>
+          </div>
+        </div>
+        <br />
+        <span class="warning italic text-danger">Ảnh nên nhỏ hơn 1mb, kích thước 560x292</span>
+      </div>
+    </div>
+  </div>
+  <div class="form-actions">
+    <div class="row">
+      <div class="col-md-offset-3 col-md-9 text-right">
+        <button type="button" class="btn btn-warning" (click)="setTab.emit('tab-2');">Back</button>
+      <button type="button" class="btn btn-success" (click)="onSubmit(frmSEOInfo, seoDetail)">
+        <i class='fa fa-spinner fa-spin'></i>Create</button>   
+      </div>
+    </div>
+  </div>
+</form>

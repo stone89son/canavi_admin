@@ -1,0 +1,29 @@
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }.input-search-recruiter{
+    width: 100%;
+}
+.btn-search-recruiter{
+    background-color: #ee5e9c;
+    color: white;
+}
+.company-item{
+  margin: 5px;cursor: pointer;
+}
+
+.mat-card-company{
+  margin: 4px;
+}
+.mat-card-company:hover{
+  background-color: rgba(0,0,0,.03);
+}
+.example-option-img {
+  vertical-align: middle;
+  margin-right: 8px;
+}

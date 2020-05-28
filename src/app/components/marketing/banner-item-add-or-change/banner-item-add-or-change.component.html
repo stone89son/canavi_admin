@@ -1,0 +1,232 @@
+<div id="banner-item-add-or-change" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="portlet light portlet-fit portlet-form bordered">
+                            <div class="portlet-title ">
+                                <div class="caption">
+                                    <i class="icon-settings font-red"></i>
+                                    <span [hidden]="bannerItem.id == 'undefined' || bannerItem.id == ''"
+                                        class="caption-subject font-red sbold uppercase">Thêm
+                                        mới banner item</span>
+                                    <span [hidden]="bannerItem.id != 'undefined' && bannerItem.id != ''"
+                                        class="caption-subject font-red sbold uppercase">Chỉnh
+                                    sửa banner item</span>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <form class="form-horizontal" (ngSubmit)="onAddOrChange(bannerItemAddOrChange)"
+                                    autocomplete="off" #bannerItemAddOrChange="ngForm">
+                                    <div class="form-body">
+                                        <div class="form-group hidden">
+                                            <label class="control-label col-md-3">Id
+                                            </label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" name="id"
+                                                    [(ngModel)]="bannerItem.id" readonly #id="ngModel" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group hidden">
+                                            <label class="control-label col-md-3">BannerId
+                                            </label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" placeholder="bannerId"
+                                                    name="bannerId" [(ngModel)]="banner.id" readonly
+                                                    #bannerId="ngModel" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Tên màn hình
+                                            </label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" placeholder="bannerName"
+                                                    name="bannerName" [(ngModel)]="banner.bannerName" readonly
+                                                    #bannerName="ngModel" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Từ khóa banner con
+                                                <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-7" [ngClass]="{ 'has-error': ((bannerItemName.errors && bannerItemName.touched)) || (bannerItemName.errors && bannerItemAddOrChange.submitted), 'has-success': !bannerItemName.errors }">
+                                                <input type="text" class="form-control" placeholder="BannerItemName"
+                                                    name="bannerItemName" [(ngModel)]="bannerItem.bannerItemName"
+                                                    required minlength="1" maxlength="1024" #bannerItemName="ngModel" />
+                                                <span class="help-block" *ngIf="(bannerItemName.invalid && bannerItemName.touched) || (bannerItemName.errors && bannerItemAddOrChange.submitted)">
+                                                    <p class="required" *ngIf="bannerItemName.errors?.required">
+                                                        Từ khóa không được để trống
+                                                    </p>
+                                                    <p class="required"
+                                                        *ngIf="bannerItemName.errors.maxlength || bannerItemName.errors.minlength">
+                                                        Từ khóa phải từ 1 tới 1024 ký tự
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Url dẫn tới
+                                            </label>
+                                            <div class="col-md-7" >
+                                                <input type="text" class="form-control" placeholder="Target URL" name="targetUrl" [(ngModel)]="bannerItem.targetUrl" #targetUrl="ngModel" />
+                                            </div>
+                                            <!-- <div class="col-md-7" [ngClass]="{ 'has-error': (targetUrl.errors && targetUrl.touched) || (targetUrl.errors && bannerItemAddOrChange.submitted), 'has-success': !targetUrl.errors }">
+                                                <span class="help-block"
+                                                    *ngIf="(targetUrl.invalid && targetUrl.touched) || (targetUrl.errors && bannerItemAddOrChange.submitted)">
+                                                    <p class="required" *ngIf="targetUrl.errors?.required">Đường dẫn không được để trống</p>
+                                                    <p class="required" *ngIf="targetUrl.errors.maxlength || targetUrl.errors.minlength">
+                                                        Đường dẫn phải từ 1 tới 1024 ký tự
+                                                    </p>
+                                                </span>
+                                            </div> -->
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Đường dẫn ảnh
+                                                <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-7">
+                                                <app-file-upload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG, JPEG"
+                                                    imageUrl="{{bannerItem.imageUrl}}"
+                                                    imagePath="{{bannerItem.imageUrl}}">
+                                                </app-file-upload>
+                                                <!-- <img [src]="bannerItem.imageUrl" width="100px" height="100px" style="border: 1px" />
+                                                <a (click)="onChangeImage()">Change image </a>
+                                                <span class="help-block" *ngIf="(bannerItem.imageUrl == '' || bannerItem.imageUrl == null) && bannerItemAddOrChange.submitted">
+                                                    <p class="required">Image is required</p>
+                                                </span> -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Mã màu nền
+                                            </label>
+                                            <div class="col-md-7">
+                                                <input type="text" class="form-control" placeholder="BackgroundRGB"
+                                                    name="backgroundRGB" [(ngModel)]="bannerItem.backgroundRGB"
+                                                    maxlength="50" #backgroundRGB="ngModel" />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Mặc định
+                                            </label>
+                                            <div class="col-md-7">
+                                                <div class="mt-checkbox-inline">
+                                                    <label class="mt-checkbox">
+                                                        <input type="checkbox" (ngModelChange)="onSelectedCheckbox()"
+                                                            class="form-check-input" name="isDefault "
+                                                            [(ngModel)]="bannerItem.isDefault" #isDefault="ngModel" />
+                                                        Banner này là mặc định
+                                                        <span></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div [style.display]="bannerItem.isDefault ? 'none' : 'block'">
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Từ ngày
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <!-- <div class="input-group input-medium date date-picker margin-bottom-5 datetimepicker1" data-date-format="mm/dd/yyyy"> -->
+                                                        <input type="text" class="form-control timepicker"
+                                                            name="startDate" placeholder="startDate"
+                                                            [(ngModel)]="bannerItem.startDate" maxlength="50"
+                                                            #startDate="ngModel" [readonly]="bannerItem.isDefault" />
+                                                        <!-- <span class="input-group-btn">
+                                                                <button class="btn btn-sm default" type="button">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </button>
+                                                            </span> -->
+                                                        <!-- </div>
+                                                        <span class="help-block">MM/dd/yyy (tháng/ngày/năm)</span> -->
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="control-label col-md-3">Đến ngày
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                        <!-- <div class="input-group input-medium date date-picker margin-bottom-5 datetimepicker1" data-date-format="mm/dd/yyyy"> -->
+                                                        <input type="text" class="form-control timepicker"
+                                                            name="endDate" placeholder="startDate"
+                                                            [(ngModel)]="bannerItem.endDate" maxlength="50"
+                                                            #endDate="ngModel" [readonly]="bannerItem.isDefault" />
+                                                        <!-- <span class="input-group-btn">
+                                                                <button class="btn btn-sm default" type="button">
+                                                                    <i class="fa fa-calendar"></i>
+                                                                </button>
+                                                            </span>
+                                                        </div>
+                                                        <span class="help-block">MM/dd/yyy (tháng/ngày/năm)</span> -->
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Trạng thái
+                                                <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-7"
+                                                [ngClass]="{'has-error': (status.errors && (status.dirty || status.touched)), 'has-success': !status.errors }">
+                                                <select class="form-control form-filter input-sm"
+                                                    [(ngModel)]="bannerItem.status" name="status" #status="ngModel"
+                                                    required>
+                                                    <option *ngFor="let item of statuses" [hidden]="item.value == '0'"
+                                                        [ngValue]="item.value">
+                                                        {{item.text}}
+                                                    </option>
+                                                </select>
+                                                <span class="help-block"
+                                                    *ngIf="(status.invalid && (status.dirty  || status.touched))">
+                                                    <p class="required" *ngIf="status.errors.required">
+                                                        Trạng thái bắt buộc phải điền
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="control-label col-md-3">Độ ưu tiên
+                                                <span class="required"> * </span>
+                                            </label>
+                                            <div class="col-md-7"
+                                                [ngClass]="{'has-error': (status.errors && (status.dirty || status.touched)), 'has-success': !status.errors }">
+                                                <input type="text" class="form-control" name="priority"
+                                                    placeholder="Priority" [(ngModel)]="bannerItem.priority"
+                                                    maxlength="50" [gt]="0" number #priority="ngModel" required />
+
+                                                <span class="help-block" *ngIf="(priority.invalid && priority.touched) ||
+                                                        ((priority.errors?.gt) && bannerItemAddOrChange.submitted)">
+                                                    <p class="required" *ngIf="priority.errors.required">
+                                                        Mức độ ưu tiên không được để trống
+                                                    </p>
+                                                    <p class="required"
+                                                        *ngIf="(priority.errors?.gt) && bannerItemAddOrChange.submitted">
+                                                        Mức độ ưu tiên phải lớn hơn 0
+                                                     </p>
+                                                    <p class="required" *ngIf="(priority.errors?.number)">
+                                                        Mức độ ưu tiên phải là số
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-actions">
+                                        <div class="row">
+                                            <div class="col-md-offset-3 col-md-9">
+                                                <button type="submit" class="btn green">Lưu</button>
+                                                <button type="button" class="btn grey-salsa btn-outline"
+                                                    data-dismiss="modal" (click)="resetForm()">Hủy
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <div class="popupUpload">
+    <app-file-uploader-popup #fileUploaderPopup (thumbnailData)="getUploadedFile($event)"></app-file-uploader-popup>
+</div> -->

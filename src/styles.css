@@ -1,0 +1,21 @@
+.modal-backdrop{
+    z-index: 999 !important;
+}
+
+.modal {
+    z-index: 1000 !important;
+}
+
+.nav-link span.title {
+    padding-left: 5px;
+}
+
+html, body { height: 100%; }
+body { 
+    margin: 0; 
+    font-family: 'Cabin', "Helvetica Neue", sans-serif !important; 
+}
+
+.mat-sort-header-container{
+    justify-content: center !important;
+}

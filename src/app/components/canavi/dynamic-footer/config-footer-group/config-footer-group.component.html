@@ -1,0 +1,38 @@
+<!-- Modal -->
+<div class="modal fade" id="config-footer-group-modal" tabindex="-1" role="dialog" aria-labelledby="configFooterGroupLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cài đặt nhóm công việc</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form (ngSubmit)="onAddOrChange(configFooterGroup)" autocomplete="off" #configFooterGroupForm="ngForm">
+                    <input type="hidden" name="id" [(ngModel)]="configFooterGroup.id" #configFooterGroupId="ngModel" />
+                    <input type="hidden" name="groupId" [(ngModel)]="configFooterGroup.groupId" #configFooterGroupGroupId="ngModel" />
+                    <div class="form-group">
+                        <label for="configFooterGroupCol">Số cột hiển thị</label>
+                        <input type="number" class="form-control" id="configFooterGroupCol" name="col" [(ngModel)]="configFooterGroup.col"
+                        minlength="1" maxlength="1024" #configFooterGroupCol="ngModel" />
+                    </div>
+                    <div class="form-group">
+                        <label for="configFooterGroupRow">Số dòng hiển thị</label>
+                        <input type="number" class="form-control" id="configFooterGroupRow" name="row" [(ngModel)]="configFooterGroup.row"
+                        minlength="1" maxlength="1024" #configFooterGroupRow="ngModel" />
+                    </div>
+                    <!-- <div class="form-group">
+                        <label for="configFooterGroupTotalItem">Số phần tử hiển thị</label>
+                        <input type="number" class="form-control" id="configFooterGroupTotalItem" name="totalItem" [(ngModel)]="configFooterGroup.totalItem"
+                        minlength="1" maxlength="1024" #configFooterGroupTotalItem="ngModel" />
+                    </div> -->
+                    <div class="clearfix">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: left;">Hủy</button>
+                        <button type="submit" class="btn btn-primary" style="float: right;">Lưu lại</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

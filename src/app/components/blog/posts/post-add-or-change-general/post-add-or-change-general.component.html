@@ -1,0 +1,17 @@
+<ngb-tabset #tabs (tabChange)="beforeChange($event)">
+    <ngb-tab id="tab-1" title="Detail">
+      <ng-template ngbTabContent>
+        <app-post-content #postContent [model]="postModel" (setTab)="setTab($event)"></app-post-content>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="tab-2" title="Category">
+      <ng-template ngbTabContent>
+        <app-post-category-tree #postCategoryTree [model]="postModel" (setTab)="setTab($event)"></app-post-category-tree>
+      </ng-template>
+    </ngb-tab>
+    <ngb-tab id="tab-3" title="Blog SEO">
+      <ng-template ngbTabContent>
+        <app-post-seo #seoDetail [model]="postModel" (setTab)="setTab($event)"></app-post-seo>
+      </ng-template>
+    </ngb-tab>
+  </ngb-tabset>

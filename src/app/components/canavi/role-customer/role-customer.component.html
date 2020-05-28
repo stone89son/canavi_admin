@@ -1,0 +1,95 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- Begin: Demo Datatable 1 -->
+    <div class="portlet light portlet-fit portlet-datatable">
+      <div class="portlet-title portlet-title-action ">
+        <div class="caption">
+          <i class="fa fa-user font-red"></i>
+          <span class="caption-subject font-blue-sharp bold uppercase">Danh sách user</span>
+        </div>
+        <div class="actions">
+          <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onShowFormCustomer()">
+            <i class="fa fa-plus"></i> Thêm </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2">
+          <label>Keyword</label>
+          <input type="text" class="form-control" placeholder="Nhập keyword" name="searchParams.keyword" [(ngModel)]="searchParams.keyword"
+          />
+        </div>
+        <div class="col-md-2">
+          <label>Department</label>
+          <select class="form-control input-large" [(ngModel)]="searchParams.departmentId" #departmentId="ngModel" name="departmentId"
+            (ngModelChange)="onChange($event)">
+            <option *ngFor="let item of searchResponse.departments" [ngValue]="item.value">{{item.text}}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label>Role</label>
+          <select class="form-control input-large" [(ngModel)]="searchParams.roleId" #roleId="ngModel" name="roleId" (ngModelChange)="onChangeRole($event)">
+            <option *ngFor="let item of searchResponse.roles" [ngValue]="item.value">{{item.text}}</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <label></label>
+          <span class="input-group-btn" style="padding-top:5px">
+            <button class="btn red" type="button" (click)="onSearch()">Tìm kiếm </button>
+          </span>
+        </div>
+      </div>
+      <form name="streetForm" #streetForm="ngForm">
+        <div class="portlet-body">
+          <div class="table-container">
+            <table class="table table-striped table-bordered table-hover table-checkable" id="measure">
+              <thead>
+                <tr role="row" class="heading">
+                  <th>Code</th>
+                  <th>Full name</th>
+                  <th>Phone number</th>
+                  <th>Email</th>
+                  <th style="width:8%">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of customerRoles | paginate: { itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                  <td>
+                    <div class="form-group">
+                      <span>{{item.code}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <span>{{item.fullName}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <span>{{item.phoneNumber}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <span>{{item.email}}</span>
+                    </div>
+                  </td>
+                  <td>
+                    <a href="javascript:;" class="btn btn-circle btn-outline red" (click)="onRemove(item.id)">
+                      <i class="fa fa-ban"></i> Remove
+                    </a>
+                  </td>
+                </tr>
+
+              </tbody>
+
+            </table>
+
+          </div>
+        </div>
+        <pagination-controls (pageChange)="pageIndex = $event"></pagination-controls>
+      </form>
+    </div>
+    <!-- End: Demo Datatable 1 -->
+  </div>
+</div>
+<app-list-customer #listCustomer [roleId]="searchParams.roleId" [customerIds]="customerIds" (reloadGrid)="onSearch()"></app-list-customer>

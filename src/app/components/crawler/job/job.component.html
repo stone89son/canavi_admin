@@ -1,0 +1,399 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Job Crawler</span>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Job Title</label>
+                        <input type="text" class="form-control" placeholder="Search by Title"
+                            [(ngModel)]="searchParams.title">
+                    </div>
+                    <div class="col-md-2">
+                        <label>MapStatus</label>
+                        <select class="form-control" id="mapstatusId" [(ngModel)]="searchParams.mapStatus">
+                            <option value="0">NotMap</option>
+                            <option value="1">Mapped</option>
+
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Recuiter</label>
+                        <input type="text" class="form-control" name="recuiterId" [(ngModel)]="searchParams.recuiterId"
+                            minlength="1" maxlength="50" #recuiterId="ngModel" style="display: none" />
+                        <select class="form-control form-filter input-sm" id="recuiterIdAutocomplete">
+                        </select>
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 20px">
+                    <div class="col-md-4">
+                        <label>Attribute
+                        </label>
+                        <input type="text" class="form-control" name="attributeId"
+                            [(ngModel)]="searchParams.attributeId" minlength="1" maxlength="50" #attributeId="ngModel"
+                            style="display: none" />
+                        <select class="form-control form-filter input-sm" id="attributeIdAutocomplete">
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <label>Attribute value
+                        </label>
+                        <!-- <input type="text" class="form-control" name="attributeValueId" [(ngModel)]="searchParams.attributeValueId"
+                            minlength="1" maxlength="50" #attributeValueId="ngModel" style="display: none" /> -->
+                        <select class="form-control form-filter input-sm" id="attributeValueIdAutocomplete"
+                            multiple="multiple">
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <label _ngcontent-c6="" class="col-md-12" style="color: #fff">Search</label>
+                        <button type="button" class="btn btn-outline blue" (click)="onSearch()">Search</button>
+                    </div>
+                    <div class="col-md-2" style="margin-left: -50px;">
+                        <label _ngcontent-c6="" class="col-md-12" style="color: #fff">Export</label>
+                        <button type="button" class="btn btn-outline blue" (click)="onShowFormExport()">Export
+                            excel</button>
+                    </div>
+                </div>
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <th> # </th>
+                                <th> Title </th>
+                                <th> Website </th>
+                                <th> Url </th>
+                                <th> Status</th>
+                                <th> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                *ngFor="let item of data | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index;">
+                                <td> <span title="{{item.id}}">{{item.id}}</span></td>
+                                <td> {{item.title}} </td>
+                                <td> {{item.websiteId}}</td>
+                                <td> {{item.url}}</td>
+                                <td> {{item.status}} </td>
+                                <!-- <td>
+                                    <button (click)="onShowAttributeValueForm(item.id)" type="button" class="btn btn-warning mt-ladda-btn ladda-button"
+                                        data-style="zoom-in">
+                                        <span class="ladda-label">View</span>
+                                    </button>
+                                </td> -->
+                                <td>
+                                    <span [ngSwitch]="item.mapStatus">
+                                        <a href="javascript:;" class="btn yellow btn-sm" *ngSwitchCase="1"
+                                            (click)="onShowDetailJobCanavi(item.id)">
+                                            <i class="fa fa-exchange"></i> View Or Edit Job </a>
+                                        <a href="javascript:;" class="btn blue btn-sm" *ngSwitchCase="0"
+                                            (click)="onShowMappingFormJob(item.id)">
+                                            <i class="fa fa-exchange"></i> Map </a>
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <div class="dataTables_info">{{totalRow}} items</div>
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                    <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5"
+                        directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous"
+                        nextLabel="Next">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
+
+<div id="modal-mapping-job" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-full">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" (click)="closeModalMap()" aria-hidden="true"></button>
+                <h4 class="modal-title">Mapping Job</h4>
+            </div>
+            <div class="modal-body col-md-12">
+                <div class="col-md-5">
+                    <div class="row">
+                        <h4>
+                            {{objectItem.title}}
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <div class="portlet box blue">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-picture"></i>Job Attribute Crawler</div>
+                                <div class="tools">
+                                    <a href="javascript:;" class="collapse"> </a>
+                                    <a href="javascript:;" class="reload"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Value</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let item of objectItem.attributes">
+                                                <td>{{item.attribute.name}}</td>
+                                                <td [innerHTML]="item.attributeValue.value"></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <input type="text" class="form-control" [(ngModel)]="objectItem.title" />
+                    </div>
+                    <div class="row">
+                        <div class="portlet box yellow">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                    <i class="fa fa-picture"></i> Job Attribute Canavi
+                                </div>
+                                <div class="tools">
+                                    <a href="javascript:void(0);" class="collapse"> </a>
+                                    <a href="javascript:void(0);" class="reload"> </a>
+                                </div>
+                            </div>
+                            <div class="portlet-body">
+                                <div class="table-scrollable">
+                                    <table class="table table-bordered table-hover">
+                                        <tbody>
+                                            <tr>
+                                                <td>Số lượng tuyển dụng</td>
+                                                <td>
+                                                    <input class="form-control" type="text"
+                                                        [(ngModel)]="paramMapping.NumberSlot" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hạn nộp hồ sơ</td>
+                                                <td>
+                                                    <input class="form-control data-picker" type="text"
+                                                        [(ngModel)]="paramMapping.ExpirationDateUtcString" />
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mức lương</td>
+                                                <td>
+                                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
+                                                        [(ngModel)]="paramMapping.SalaryType">
+                                                        <mat-radio-button class="example-radio-button" checked [value]="2" style="padding: 0 10px;">
+                                                            Mức lương cố định
+                                                        </mat-radio-button>
+                                                        <mat-radio-button class="example-radio-button" [value]="3" style="padding: 0 10px;">
+                                                            Mức lương theo khoảng
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                    <mat-form-field class="example-full-width" *ngIf="paramMapping.SalaryType == 2" style="width: 100%; padding: 10px;">
+                                                        <input matInput type="number" autocomplete="false" placeholder="Mức lương cố định" value="0" [(ngModel)]="paramMapping.SalaryValue">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" *ngIf="paramMapping.SalaryType == 3" style="width: 100%; padding: 10px;">
+                                                        <input matInput type="number" autocomplete="false" placeholder="Mức lương khoảng từ ..." value="0" [(ngModel)]="paramMapping.SalaryFrom">
+                                                    </mat-form-field>
+                                                    <mat-form-field class="example-full-width" *ngIf="paramMapping.SalaryType == 3" style="width: 100%; padding: 10px;">
+                                                        <input matInput type="number" autocomplete="false" placeholder="Mức lương khoảng đến ..." value="0" [(ngModel)]="paramMapping.SalaryTo">
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Yêu cầu phỏng vấn</td>
+                                                <td>
+                                                    <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group" [(ngModel)]="paramMapping.NeedToInterview">
+                                                        <mat-radio-button class="example-radio-button" checked [value]="false" style="padding: 0 10px;">
+                                                            Không yêu cầu
+                                                        </mat-radio-button>
+                                                        <mat-radio-button class="example-radio-button" [value]="true" style="padding: 0 10px;">
+                                                            Có yêu cầu
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ngành nghề</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn ngành nghề</mat-label>
+                                                        <mat-select [formControl]="categories" multiple>
+                                                            <mat-option *ngFor="let items of dataCategories.categories" [value]="items.id">{{items.name}}</mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hình thức làm việc</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn hình thức làm việc</mat-label>
+                                                        <mat-select [formControl]="workingTypes">
+                                                            <mat-option *ngFor="let items of dataWorkingTypes.workingTypes" [value]="items.id">
+                                                                {{items.workingTypeValue}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Ngôn ngữ trình bày hồ sơ</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn ngôn ngữ trình bày</mat-label>
+                                                        <mat-select [formControl]="curriculumVitaeLanguages">
+                                                            <mat-option *ngFor="let items of dataCurriculumVitaeLanguages.curriculumVitaeLanguages" [value]="items.id">
+                                                                {{items.language}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Giới tính</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn yêu cầu giới tính</mat-label>
+                                                        <mat-select [formControl]="genders">
+                                                            <mat-option *ngFor="let items of dataGenders.genders" [value]="items.id">
+                                                                {{items.genderValue}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kinh nghiệm</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn yêu cầu kinh nghiệm</mat-label>
+                                                        <mat-select [formControl]="experienceRanges">
+                                                            <mat-option *ngFor="let items of dataExperienceRanges.experienceRanges" [value]="items.id">
+                                                                {{items.experienceRangeValue}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Kỹ năng</td>
+                                                <td>
+                                                    <mat-form-field style="width: 100%;">
+                                                        <mat-label>Lựa chọn yêu cầu kỹ năng</mat-label>
+                                                        <mat-select [formControl]="skills" multiple>
+                                                            <mat-option *ngFor="let items of dataSkills.skills" [value]="items.id">
+                                                                {{items.skillValue}}
+                                                            </mat-option>
+                                                        </mat-select>
+                                                    </mat-form-field>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Hồ sơ bao gồm</td>
+                                                <td>
+                                                    <ckeditor [config]="config" [(ngModel)]="paramMapping.ProfileInclude"></ckeditor>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Mô tả công việc</td>
+                                                <td>
+                                                    <ckeditor [config]="config" [(ngModel)]="paramMapping.JobDescription"></ckeditor>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Yêu cầu công việc</td>
+                                                <td>
+                                                    <ckeditor [config]="config" [(ngModel)]="paramMapping.JobRequirement"></ckeditor>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Phúc lợi</td>
+                                                <td>
+                                                    <ckeditor [config]="config" [(ngModel)]="paramMapping.JobBenefit"></ckeditor>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn blue btn-outline" [disabled]="!paramMapping.RefCrawlerJobId"
+                    (click)="saveMappingJob()">Save</button>
+                <button type="button" (click)="closeModalMap()" class="btn dark btn-outline">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup">
+    <job-detail #jobDetail></job-detail>
+</div>
+
+<div class="popup">
+    <div id="export-form" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                    <h4 class="modal-title">Chọn trang cần xuất excel</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4>Từ trang</h4>
+                            <div class="input-group">
+                                <span class="input-group-btn">
+                                    <button class="btn red" type="button" (click)="onMinusPage()"
+                                        [disabled]="searchParams.fromPage == 1"><i class="fa fa-minus"></i></button>
+                                </span>
+                                <input type="text" class="form-control text-center" disabled placeholder="0"
+                                    name="fromPage" [(ngModel)]="searchParams.fromPage" #fromPage="ngModel">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <h4>Tới trang</h4>
+                            <div class="input-group">
+                                <input type="text" class="form-control text-center" disabled placeholder="0"
+                                    name="toPage" [(ngModel)]="searchParams.toPage" #toPage="ngModel">
+                                <span class="input-group-btn">
+                                    <button class="btn blue" (click)="onPlusPage()" type="button"><i
+                                            class="fa fa-plus"></i></button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" class="btn dark btn-outline" data-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn green" (click)="onExport()">Xuất</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

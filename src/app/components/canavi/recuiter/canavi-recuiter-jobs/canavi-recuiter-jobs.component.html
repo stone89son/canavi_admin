@@ -1,0 +1,137 @@
+<div id="job-list" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-full">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- BEGIN SAMPLE TABLE PORTLET-->
+            <div class="portlet light bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span class="caption-subject font-red sbold uppercase">Jobs</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="row">
+                  <div class="col-md-11">
+                    <label>Title</label>
+                    <input type="text" class="form-control" [(ngModel)]="searchParams.title"
+                      placeholder="Enter keyword">
+                  </div>
+                  <div class="col-md-1">
+                    <label class="col-md-12" style="color: #fff">Search</label>
+                    <button type="button" class="btn blue" (click)="onGetByRecuiterId()"><i class="fa fa-search"></i>
+                      Search</button>
+                  </div>
+                </div>
+                <div class="table-scrollable">
+                  <table class="table table-hover table-light">
+                    <thead>
+                      <tr>
+                        <th> STT </th>
+                        <th> Tên công việc </th>
+                        <th> Ngày đăng tin </th>
+                        <th> SL tuyển dụng</th>
+                        <th> SL hồ sơ </th>
+                        <th> Ứng tuyển </th>
+                        <th> Mời ứng tuyển </th>
+                        <th> Chờ phỏng vấn </th>
+                        <th> Chờ tạo mã </th>
+                        <th> Chờ nhận việc </th>
+                        <th> Trạng thái </th>
+                        <th> Đã từ chối </th>
+                        <th> </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let item of jobs | paginate: {id:'pagingControlJobs', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                        <td> {{i+1}}</td>
+                        <td> {{item.title}} </td>
+                        <td> {{item.title}} </td>
+                        <td> {{item.numberSlot}} </td>
+                        <td> {{item.suggestCandidate}} </td>
+                        <td> {{item.countJobApplied}} </td>
+                        <td> {{item.countJobWaitingForInterview}} </td>
+                        <td> {{item.countJobApprovedAndWaitingForCreateCode}} </td>
+                        <td> {{item.countJobAcceptedInvite}} </td>
+                        <td> {{item.countJobCompleted}} </td>
+                        <td> 
+                          <!-- [(ngModel)]='' -->
+                          <mat-form-field>
+                            <mat-label>Trạng thái</mat-label>
+                            <mat-select [disabled]="item.status == 16 ? true : false" [(ngModel)]='item.status' (selectionChange)="changeStatusJob(item.id,item.status)">
+                              <mat-option *ngFor="let food of statusJobs" [value]="food.value">
+                                {{food.viewValue}}
+                              </mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </td>
+                        <td>
+                          <div class="btn-group">
+                            <a class="btn red btn-outline btn-circle" href="javascript:;" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              <i class="fa fa-gear"></i>
+                              <span class="hidden-xs"> Actions </span>
+                              <i class="fa fa-angle-down"></i>
+                            </a>
+                            <ul class="dropdown-menu pull-right" aria-labelledby="dropdownMenuButton">
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormDetail(item.id)">
+                                  <i class="fa fa-gear"></i> Xem chi tiết </a>
+                              </li>
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormDetail(item.id)">
+                                  <i class="fa fa-gear"></i> Sửa </a>
+                              </li>
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormDetail(item.id)">
+                                  <i class="fa fa-gear"></i> Chuyển trạng thái </a>
+                              </li>
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormCandidateMapping(item.id)">
+                                  <i class="fa fa-gear"></i> DS ứng viên </a>
+                              </li>
+                              <li class="divider"> </li>
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormExternalProfile(item.id)">
+                                  <i class="fa fa-gear"></i> Thay đổi loại company </a>
+                              </li>
+                              <li>
+                                <a href="javascript:;" (click)="onShowFormPaymentHistory(item.id)">
+                                  <i class="fa fa-gear"></i> Lịch sử thanh toán </a>
+                              </li>
+                              <li class="divider"> </li>                              
+                            </ul>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-5 col-sm-5">
+                  <div class="dataTables_info">{{totalRow}} items</div>
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                  <pagination-controls id="pagingControlJobs" (pageChange)="pageChangedJobs($event)" maxSize="5"
+                    directionLinks="true" autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+                  </pagination-controls>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn dark btn-outline" data-dismiss="modal">Close</button>
+              </div>
+            </div>
+            <!-- END SAMPLE TABLE PORTLET-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup">
+  <app-canavi-candidate-job-mapping #candidateJobMapping></app-canavi-candidate-job-mapping>
+  <app-canavi-recuiter-job-detail #candidateJobDetail></app-canavi-recuiter-job-detail>
+</div>

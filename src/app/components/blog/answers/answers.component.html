@@ -1,0 +1,77 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="portlet light bordered">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-settings font-red"></i>
+          <span class="caption-subject font-red sbold uppercase">Answers</span>
+        </div>
+        <div class="actions">
+          <button (click)="onShowFormAddOrChange('')" type="button" class="btn blue btn-outline">
+            <i class="fa fa-plus"></i>
+            <span class="ladda-label"> Add</span>
+          </button>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-5">
+            <label>Content</label>
+            <input type="text" class="form-control" [(ngModel)]="searchParams.content" placeholder="Enter keyword">
+          </div>
+          <div class="col-md-5">
+            <label>Status</label>
+            <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.status" name="statusName"
+              #statusName="ngModel">
+              <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <label class="col-md-12" style="color: #fff">Search</label>
+            <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+          </div>
+        </div>
+        <div class="table-scrollable">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <!-- <th style="width: 6%"> # </th> -->
+                <th> Content </th>
+                <th> Helpfull Count </th>
+                <th> Status </th>
+                <th style="width: 15%"> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of answers | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                <td innerHTML="{{item.content}}"></td>
+                <td> {{item.helpfullCount}} </td>
+                <td> {{item.statusName}} </td>
+                <td>
+                  <button (click)="onShowFormAddOrChange(item.id)" type="button" class="btn btn-danger mt-ladda-btn ladda-button">
+                    <i class="fa fa-pencil"></i>
+                    <span class="ladda-label"> Edit</span>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-5 col-sm-5">
+          <div class="dataTables_info">{{totalRow}} items</div>
+        </div>
+        <div class="col-md-7 col-sm-7 text-right">
+          <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true"
+            autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+          </pagination-controls>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="popup">
+  <app-answers-add-or-update #answersAddOrUpdate (reloadAnswers)="onSearch()"></app-answers-add-or-update>
+</div>

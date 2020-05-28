@@ -1,0 +1,130 @@
+<div class="row">
+  <div class="col-md-12">
+    <!-- BEGIN SAMPLE TABLE PORTLET-->
+    <div class="portlet light bordered">
+      <div class="portlet-title">
+        <div class="caption">
+          <i class="icon-settings font-red"></i>
+          <span class="caption-subject font-red sbold uppercase">Recuiters</span>
+        </div>
+      </div>
+      <div class="portlet-body">
+        <div class="row">
+          <div class="col-md-11">
+            <label>Name</label>
+            <input type="text" class="form-control" [(ngModel)]="searchParams.name" placeholder="Enter keyword">
+          </div>
+          <div class="col-md-1">
+            <label class="col-md-12" style="color: #fff">Search</label>
+            <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+          </div>
+        </div>
+        <div class="table-scrollable">
+          <table class="table table-hover table-light">
+            <thead>
+              <tr>
+                <th> STT </th>
+                <th style="width: 10%"> Logo </th>
+                <th> Tên </th>
+                <th> SL Job Đã tạo </th>
+                <th> Trạng thái </th>
+                <th style="width: 13%"> Action </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let item of recuiters | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }; let i = index">
+                <td> {{i+1}}</td>
+                <td> <img width="100px" src="{{item.logoResize}}" /> </td>
+                <td> {{item.name}} </td>
+                <td>
+                  <a (click)="onShowJobs(item.id)">{{item.jobCount}}</a>
+                </td>
+                <td> {{item.statusName}} </td>
+                <td>
+                  <div class="btn-group">
+                    <a class="btn red btn-outline btn-circle" href="javascript:;" data-toggle="dropdown">
+                      <i class="fa fa-gear"></i>
+                      <span class="hidden-xs"> Actions </span>
+                      <i class="fa fa-angle-down"></i>
+                    </a>
+                    <ul class="dropdown-menu pull-right">
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormDetail(item.id)">
+                          <i class="fa fa-gear"></i> Xem chi tiết </a>
+                      </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormDetail(item.id)">
+                          <i class="fa fa-gear"></i> Sửa </a>
+                      </li>
+                      <li *ngIf="item.statusName != 'Crawler' && item.status!=-1">
+                          <a href="javascript:;" (click)="showDialogChangStatus(item.id,item.status)">
+                            <i class="fa fa-gear"></i> Chuyển trạng thái</a>
+                        </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormExternalProfile(item.id)">
+                          <i class="fa fa-gear"></i> Danh sách hồ sơ </a>
+                      </li>
+                      <li class="divider"> </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormExternalProfile(item.id)">
+                          <i class="fa fa-gear"></i> Cấu hình trả trước </a>
+                      </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormExternalProfile(item.id)">
+                          <i class="fa fa-gear"></i> Thay đổi loại company </a>
+                      </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormPaymentHistory(item.id)">
+                          <i class="fa fa-gear"></i> Lịch sử thanh toán </a>
+                      </li>
+                      <li class="divider"> </li>
+                      <li>
+                        <a href="javascript:;" (click)="onShowFormUserMapping(item.id)">
+                          <i class="fa fa-gear"></i> Yêu cầu xác thực </a>
+                      </li>
+                      <li>
+                          <a href="javascript:;" (click)="onShowFormUserMapping(item.id)">
+                            <i class="fa fa-gear"></i> QL tài khoản </a>
+                        </li>
+                    </ul>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 col-sm-5">
+          <div class="dataTables_info">{{totalRow}} items</div>
+        </div>
+        <div class="col-md-8 col-sm-7 text-right">
+          <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true"
+            autoHide="true" responsive="true" previousLabel="Previous" nextLabel="Next">
+          </pagination-controls>
+        </div>
+        <div class="col-md-1 col-sm-5">
+          <input type="text" style="width:105px" [(ngModel)]="pageIndex" name="page" (change)="pageChanged(pageIndex)">
+        </div>
+      </div>
+    </div>
+    <!-- END SAMPLE TABLE PORTLET-->
+  </div>
+</div>
+<div class="popup">
+  <app-canavi-recuiter-jobs #listJobs></app-canavi-recuiter-jobs>
+</div>
+<div class="popup">
+  <app-canavi-recuiter-detail #detailRecuiter></app-canavi-recuiter-detail>
+</div>
+<div class="popup">
+  <app-canavi-recuiter-external-profile #recuiterExternalProfile></app-canavi-recuiter-external-profile>
+</div>
+<div class="popup">
+  <app-canavi-recuiter-payment-history #recuiterPaymentHistory></app-canavi-recuiter-payment-history>
+</div>
+<div class="popup">
+  <app-canavi-recuiter-user-mapping #recuiterUserMapping></app-canavi-recuiter-user-mapping>
+</div>

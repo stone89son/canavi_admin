@@ -1,0 +1,12 @@
+.dashboard-stat2-custom {
+    padding: 2px 2px 2px 2px;
+    text-align: center;
+    background: #fff;
+}
+
+.dashboard-stat2-custom .display .number small {
+    font-size: 14px;
+    color: #AAB5BC;
+    font-weight: 600;
+    text-transform: uppercase;
+}

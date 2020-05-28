@@ -1,0 +1,189 @@
+<div id="commisstion-fee-add-or-update" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light portlet-fit portlet-form bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span *ngIf='id==null || id?.length <= 0' class="caption-subject font-red sbold uppercase">Add</span>
+                  <span *ngIf='id?.length>0' class="caption-subject font-red sbold uppercase">Update</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <form action="#" id="commissionFee-add-or-change" (ngSubmit)="onSave(commisstionFeeAddOrChange)"
+                  #commisstionFeeAddOrChange="ngForm" class="form-horizontal">
+                  <div class="form-body">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Đối tượng cấu hình
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" [(ngModel)]="commisstionFee.objectType"
+                            name="objectType" #objectType="ngModel" required>
+                            <option *ngFor="let item of objectTypes" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Loại cấu hình
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" [(ngModel)]="commisstionFee.configType"
+                            name="configType" #configType="ngModel" required>
+                            <option *ngFor="let item of configTypes" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Nghành hàng
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" id="categoryIdAutocomplete"
+                            style="width: 500px;" [(ngModel)]="commisstionFee.categoryId" name="categoryId"
+                            #categoryId="ngModel">
+                            <option *ngFor="let item of categoryIds" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" [style.display]="commisstionFee.configType != 1? 'block': 'none'">
+                      <label class="control-label col-md-3">Recruiter
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" id="recuiterIdAutocomplete"
+                            style="width: 500px;" [(ngModel)]="commisstionFee.recruiterId" name="recruiterId"
+                            #recruiterId="ngModel">
+                            <option *ngFor="let item of recruiterIds" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" [style.display]="commisstionFee.configType != 1? 'block': 'none'">
+                      <label class="control-label col-md-3">Job
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" id="jobIdAutocomplete" style="width: 500px;"
+                            [(ngModel)]="commisstionFee.jobId" name="jobId" #jobId="ngModel">
+                            <option *ngFor="let item of jobIds" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Hình thức làm việc
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" style="width: 500px;"
+                            id="workingTypeIdAutocomplete" [(ngModel)]="commisstionFee.workingTypeId"
+                            name="workingTypeId" #workingTypeId="ngModel">
+                            <option *ngFor="let item of workingTypeIds" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Commission Type
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <select class="form-control form-filter input-sm" [(ngModel)]="commisstionFee.commissionType"
+                            name="commissionType" #commissionType="ngModel" required>
+                            <option *ngFor="let item of commissionTypes" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Giá trị
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9" [ngClass]="{ 
+                                          'has-error': (value.errors && (value.dirty || value.touched)) 
+                                          || (!formValid && value.errors),
+                                          'has-success': !value.errors }">
+                        <input type="number" name="value" class="form-control" placeholder="Value"
+                          [(ngModel)]="commisstionFee.value" min="0" #value="ngModel" required />
+                        <span class="help-block required" *ngIf="(value.invalid && (value.dirty  || value.touched))
+                                                  || (!formValid && value.errors)">
+                          <p class="required" *ngIf="value?.errors?.required">Value is required.</p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Từ ngày                        
+                      </label>
+                      <div class="col-md-9">
+                        <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
+                          <input type="text" class="form-control form-filter input-sm" name="startDateUtc"
+                            placeholder="Từ ngày" [(ngModel)]="commisstionFee.startDateUtc" #startDateUtc="ngModel" />
+                          <span class="input-group-btn">
+                            <button class="btn btn-sm default" type="button">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Đến ngày
+                      </label>
+                      <div class="col-md-9">
+                        <div class="input-group date date-picker" data-date-format="dd/mm/yyyy">
+                          <input type="text" class="form-control form-filter input-sm" name="endDateUtc"
+                            placeholder="Từ ngày" [(ngModel)]="commisstionFee.endDateUtc" #endDateUtc="ngModel" />
+                          <span class="input-group-btn">
+                            <button class="btn btn-sm default" type="button">
+                              <i class="fa fa-calendar"></i>
+                            </button>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group" *ngIf="commisstionFee.id != '' && commisstionFee.id != null">
+                      <label class="control-label col-md-3">Status                        
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <!-- <select class="form-control form-filter input-sm" [(ngModel)]="commisstionFee.status"
+                            name="status" #status="ngModel">
+                            <option *ngIf="(commisstionFee.id != '' && (item.value == 1 || item.value == 2)) || (commisstionFee.id == '' && item.value == 3) " [ngValue]="item.value">{{item.text}}</option>
+                          </select> -->
+                          <select class="form-control form-filter input-sm" [(ngModel)]="commisstionFee.status"
+                            name="status" #status="ngModel">
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-9 text-right">
+                        <button type="submit" class="btn green">Save</button>
+                        <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

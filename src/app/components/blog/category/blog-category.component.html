@@ -1,0 +1,154 @@
+<form (ngSubmit)="onAddOrChange(categoryAddOrChange)" autocomplete="off" #categoryAddOrChange="ngForm">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="portlet light portlet-fit portlet-datatable">
+        <div class="portlet-title portlet-title-action ">
+          <div class="caption">
+            <i class="icon-settings font-green"></i>
+            <span class="caption-subject font-red sbold uppercase">Category</span>
+          </div>
+        </div>
+        <div class="portlet-body">
+          <div class="table-container">
+            <div class="form-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label class="control-label col-md-1">Type
+                    </label>
+                    <div class="col-md-5">
+                      <select class="form-control form-control-sm" [(ngModel)]="typeSearchParam" name="typeSearchParam"
+                        required (change)="onInit()">
+                        <option *ngFor="let item of model.types" [ngValue]="item.value">{{item.text}}</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <div style="margin-bottom: 15px;">
+        <div class="actions">
+          <!-- <a href="javascript:;" class="btn btn-circle blue-steel btn-outline" (click)="onGet('')">
+            <i class="fa fa-plus"></i> Thêm mới </a> -->
+          <button (click)="onGet('')" type="button" class="btn btn-success mt-ladda-btn ladda-button">
+            <i class="fa fa-plus"></i>
+            <span class="ladda-label"> Thêm mới</span>
+          </button>
+        </div>
+      </div>
+      <div id="categories"></div>
+    </div>
+    <div class="col-md-8" id="frmCategory" *ngIf="showFormCategory">
+      <ul class="nav nav-tabs">
+        <li class="active">
+          <a href="#tab_1_1" data-toggle="tab"> Thông tin </a>
+        </li>
+      </ul>
+      <div class="tab-content">
+        <div class="tab-pane fade active in" id="tab_1_1">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="portlet-title portlet-title-action ">
+                <div class="caption">
+                  <i class="icon-settings font-green"></i>
+                  <span *ngIf="model.category.id == '' || model.category.id == null || model.category.id == undefined"
+                    class="caption-subject font-green sbold uppercase">Thêm
+                    mới category</span>
+                  <span *ngIf="model.category.id !='' && model.category.id != null && model.category.id != undefined"
+                    class="caption-subject font-green sbold uppercase">
+                    Chỉnh sửa category:
+                    <span class=" caption font-red-intense">{{model.category.name}}</span>
+                  </span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <div class="table-container">
+                  <div class="form-group">
+                    <label class="control-label">Type: </label>
+                    <div [ngClass]="{ 'has-error': (type.errors && (type.dirty || type.touched)) || (!formValid && type.errors), 'has-success': !type.errors }">
+                      <select class="form-control form-control-sm" [(ngModel)]="model.category.type" name="type" #type="ngModel"
+                        (change)="onChangeMenuEditType()" required>
+                        <option *ngFor="let item of model.types" [ngValue]="item.value">{{item.text}}</option>
+                      </select>
+                      <span class="help-block" *ngIf="(type.invalid && (type.dirty  || type.touched)) || (!formValid && type.errors) ">
+                        <span class="required">Type is required</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Parent: </label>
+                    <div>
+                      <a href="javascript:;" class="btn btn-circle btn-outline green" (click)="onClearSelected()">
+                        <i class="fa fa-edit"></i> Clear Selected</a>
+                    </div>
+                    <div class="parents"></div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Name:
+                      <span class="required"> * </span>
+                    </label>
+                    <div [ngClass]="{ 'has-error': (name.errors && (name.dirty || name.touched)) || (!formValid && name.errors), 'has-success': !name.errors }">
+                      <input type="text" class="form-control" placeholder="Enter name" #name="ngModel" name="name"
+                        [(ngModel)]="model.category.name" required minlength="1" maxlength="500" />
+                      <span class="help-block" *ngIf="(name.invalid && (name.dirty  || name.touched)) || (!formValid && name.errors)">
+                        <p class="required" *ngIf="name.errors?.required">Name is required</p>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Logo
+                    </label>
+                    <div style="width:50%">
+                      <app-file-upload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG" imageUrl="{{model.category.fullUrlOrigin}}">
+                      </app-file-upload>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Status:
+                      <span class="required"> * </span>
+                    </label>
+                    <div [ngClass]="{ 'has-error': (status.errors && (status.dirty || status.touched)) || (!formValid && status.errors), 'has-success': !status.errors }">
+                      <select class="form-control form-control-sm" [(ngModel)]="model.category.status" #status="ngModel"
+                        name="status" required>
+                        <option *ngFor="let item of model.statuses" [ngValue]="item.value">{{item.text}}</option>
+                      </select>
+                      <span class="help-block" *ngIf="(status.invalid && (status.dirty  || status.touched)) || (!formValid && status.errors)">
+                        <span class="required">Status is required</span>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Display order: </label>
+                    <div [ngClass]="{ 'has-error': (displayOrder.errors && (displayOrder.dirty || displayOrder.touched)) || (!formValid && displayOrder.errors), 'has-success': !displayOrder.errors }">
+                      <input type="text" class="form-control" placeholder="Enter display order" name="displayOrder"
+                        [(ngModel)]="model.category.displayOrder" maxlength="10" #displayOrder="ngModel" pattern="^([0-9]*)$" />
+                      <span class="help-block" *ngIf="(displayOrder.invalid && (displayOrder.dirty  || displayOrder.touched)) || (!formValid && displayOrder.errors)">
+                        <span *ngIf="displayOrder.errors.required" class="required">Display order is required</span>
+                        <span *ngIf="displayOrder.errors.pattern" class="required">Display order is only number</span>
+                      </span>
+                    </div>
+                  </div>
+                  <!-- <button type="submit" class="btn btn-primary">Submit</button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <div class="row">
+          <div class="col-md-offset-3 col-md-9 text-right">
+            <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

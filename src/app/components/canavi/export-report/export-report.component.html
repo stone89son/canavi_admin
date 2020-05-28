@@ -1,0 +1,59 @@
+<h3 class="text-center" style="font-weight: bold;">BÁO CÁO THỐNG KÊ SỐ LIỆU</h3>
+<div class="col-lg-12">
+    <div class="col-lg-3 no-padding-left">
+        <mat-form-field>
+            <input matInput [matDatepicker]="startdate" placeholder="Từ ngày" (click)="startdate.open()" readonly [formControl]="startDate" [min]="minDateSD" [max]="maxDateSD" (ngModelChange)="onChangeDateTime($event, 1)" >
+            <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+            <mat-datepicker #startdate></mat-datepicker>
+        </mat-form-field>
+    </div> 
+    <div class="col-lg-3 no-padding-left">
+        <mat-form-field>
+            <input matInput [matDatepicker]="enddate" placeholder="Đến ngày" (click)="enddate.open()" readonly [formControl]="endDate" [min]="minDateED" [max]="maxDateED" (ngModelChange)="onChangeDateTime($event, 2)" >
+            <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+            <mat-datepicker #enddate></mat-datepicker>
+        </mat-form-field>
+    </div>
+</div>
+<div class="col-lg-12">
+    <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Tìm kiếm">
+    </mat-form-field>
+</div>
+<div class="col-lg-12">
+    <table class="table table-bordered" mat-table [dataSource]="dataSource" matSort>
+        <!-- Số thứ tự -->
+        <ng-container matColumnDef="stt">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> STT </th>
+            <td mat-cell *matCellDef="let row"> {{row.stt}} </td>
+        </ng-container>
+
+        <!-- Tên loại báo cáo -->
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Tên báo cáo </th>
+            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        </ng-container>
+
+        <!-- Mô tả nội dụng của loại báo cáo -->
+        <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nội dung báo cáo </th>
+            <td mat-cell *matCellDef="let row"> {{row.description}} </td>
+        </ng-container>
+
+        <!-- Các chức năng -->
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Thao tác </th>
+            <td mat-cell *matCellDef="let row">
+                <a href="javascript:void(0)" class="btn btn-primary btn-block" (click)="exportToExcel(row.stt)">
+                    <i class="fas fa-file-download"></i> Xuất báo cáo
+                </a>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+        </tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+</div>

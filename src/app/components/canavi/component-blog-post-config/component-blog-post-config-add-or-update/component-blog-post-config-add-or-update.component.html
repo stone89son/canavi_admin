@@ -1,0 +1,78 @@
+<div id="component-blog-post-add-or-update" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light portlet-fit portlet-form bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span *ngIf='id==null || id?.length <= 0' class="caption-subject font-red sbold uppercase">Add</span>
+                  <span *ngIf='id?.length>0' class="caption-subject font-red sbold uppercase">Update</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <form action="#" id="attribute-relationship-add-or-change" (ngSubmit)="onSave(componentBlogPostConfigAddOrChange)"
+                  #componentBlogPostConfigAddOrChange="ngForm" class="form-horizontal">
+                  <div class="form-body">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Post
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div>
+                          <input type="hidden" class="form-control" name="targetId" [(ngModel)]="componentBlogPost.targetId"
+                            required minlength="1" maxlength="50" #targetId="ngModel" />
+                          <select class="form-control form-filter input-sm" id="postsAutocomplete" style="width: 611px;">
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Display order
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9" [ngClass]="{ 
+                                                  'has-error': (displayOrder.errors && (displayOrder.dirty || displayOrder.touched)) 
+                                                  || (!formValid && displayOrder.errors),
+                                                  'has-success': !displayOrder.errors }">
+                        <input type="number" name="displayOrder" class="form-control" placeholder="Enter display order"
+                          [(ngModel)]="componentBlogPost.displayOrder" min="0" #displayOrder="ngModel" required />
+                        <span class="help-block required" *ngIf="(displayOrder.invalid && (displayOrder.dirty  || displayOrder.touched))
+                                                          || (!formValid && displayOrder.errors)">
+                          <p class="required" *ngIf="displayOrder?.errors?.required">Display order is required.</p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Status
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div [ngClass]="{'has-success': status.dirty && status.value!=''}">
+                          <select class="form-control form-filter input-sm" [(ngModel)]="componentBlogPost.status" name="status"
+                            #status="ngModel">
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-9 text-right">
+                        <button type="submit" class="btn green">Save</button>
+                        <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

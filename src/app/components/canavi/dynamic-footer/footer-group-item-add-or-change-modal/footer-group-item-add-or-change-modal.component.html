@@ -1,0 +1,45 @@
+<!-- Modal -->
+<div class="modal fade" id="footer-group-item-add-or-change-modal" tabindex="-1" role="dialog" aria-labelledby="footerGroupItemAddOrChangeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 *ngIf="currentId == null || currentId == ''" class="modal-title">Thêm mới công việc </h5>
+          <h5 *ngIf="currentId != null && currentId != ''" class="modal-title">Chỉnh sửa công việc </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="onAddOrChange(footerGroupItemAddOrChangeForm)" autocomplete="off" #footerGroupItemAddOrChangeForm="ngForm">
+            <input type="hidden" name="groupId" [(ngModel)]="footerGroupItemAddOrChange.groupId" />
+            <div class="form-group">
+                <label for="footerGroupItemName">Tên công việc*</label>
+                <input type="text" class="form-control" id="footerGroupItemName" name="name" [(ngModel)]="footerGroupItemAddOrChange.name" required
+                placeholder="Việc làm lập trình viên" minlength="1" maxlength="1024" #footerGroupItemName="ngModel" />
+            </div>
+            <div class="form-group">
+                <label for="footerGroupItemUrl">Đường dẫn</label>
+                <input type="text" class="form-control" id="footerGroupItemUrl" name="url" [(ngModel)]="footerGroupItemAddOrChange.url"
+                placeholder="https://canavi.com/viec-lam-lap-trinh-vien" minlength="1" maxlength="1024" #footerGroupUrl="ngModel" />
+            </div>
+            <div class="form-group" *ngIf="currentId != null && currentId != ''">
+                <label for="footerGroupItemStatus">Trạng thái</label>
+                <select class="form-control" id="footerGroupItemStatus" name="status" [(ngModel)]="footerGroupItemAddOrChange.status" #footerGroupItemStatus="ngModel">
+                  <option value="1">Đang hoạt động</option>
+                  <option value="-1">Đã xóa</option>
+                </select>
+            </div>
+            <div class="form-group" *ngIf="currentId != null && currentId != ''">
+                <label for="footerGroupItemDisplayOrder">Thứ tự hiển thị</label>
+                <input type="number" class="form-control" id="footerGroupItemDisplayOrder" name="displayOrder" [(ngModel)]="footerGroupItemAddOrChange.displayOrder"
+                minlength="1" maxlength="1024" #footerGroupItemDisplayOrder="ngModel" />
+            </div>
+            <div class="clearfix">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" style="float: left;">Hủy</button>
+                <button type="submit" class="btn btn-primary" style="float: right;">Lưu lại</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>

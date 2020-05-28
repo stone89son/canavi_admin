@@ -1,0 +1,41 @@
+<div class="text-right" style="margin-bottom: 20px;">
+    <a href="javascript:void(0);" class="btn btn-circle btn-outline red" (click)="onShowAddOrChangeForm('');">
+        <i class="fas fa-plus"></i> Thêm mới 
+    </a>
+</div>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">TT hiển thị</th>
+                <th scope="col">Tên nhóm</th>
+                <th scope="col">Đường dẫn</th>
+                <th scope="col">Trạng thái</th>
+                <th scope="col">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let items of footerGroups">
+                <th scope="row">{{items.displayOrder}}</th>
+                <td class="text-left">{{items.name}}</td>
+                <td class="text-url-cover">{{items.destinationLink}}</td>
+                <td>{{items.statusName}}</td>
+                <td>
+                    <a href="javascript:void(0);" class="btn btn-circle btn-outline green" (click)="onShowListFooterGroupItemForm(items.id)">
+                        <i class="fas fa-list-ol"></i> Danh sách công việc
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-circle btn-outline blue" (click)="onShowAddOrChangeForm(items.id)">
+                        <i class="fas fa-pencil-alt"></i> Chỉnh sửa 
+                    </a>
+                    <a href="javascript:void(0);" class="btn btn-circle btn-outline dark" (click)="onShowUpdateConfigFooterGroupForm(items.id)">
+                            <i class="fas fa-cogs"></i> Cài đặt 
+                    </a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<app-footer-group-add-or-change-modal (reloadEvent)="getAllFooterGroup(footerGroupGetAllRequest)"></app-footer-group-add-or-change-modal>
+<app-footer-group-item></app-footer-group-item>
+<app-config-footer-group></app-config-footer-group>

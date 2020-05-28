@@ -1,0 +1,138 @@
+<form autocomplete="off" #frmTabInfo="ngForm">
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Title
+        <span class="required">(*)</span>
+      </label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <input class="form-control" type="text" name="title" [(ngModel)]="postContentModel.title" #title="ngModel"
+          placeholder="Title" maxlength="512" required />
+        <div class="help-block" *ngIf="(title.errors && (title.dirty || title.touched)) || (!formValid && title.errors)">
+          <p class="required" *ngIf="title?.errors.required">Bạn phải nhập tên sản phẩm.</p>
+          <p class="required" *ngIf="title?.errors.maxlength">Tên sản phẩm không quá 512 ký tự.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Thumnail
+        <span class="required">(*)</span>
+      </label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group" style="width:50%">
+        <app-file-upload #thumnailUpload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG" imageUrl="{{postContentModel.fullUrlOrigin}}">
+        </app-file-upload>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Feature thumnail
+        <span class="required">(*)</span>
+      </label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group" style="width:50%">
+        <app-file-upload #featureThumnailUpload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG" imageUrl="{{postContentModel.fullUrlFeatureOrigin}}">
+        </app-file-upload>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Short description</label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <ckeditor name="shortDescription" [(ngModel)]="postContentModel.shortDescription" #shortDescription="ngModel"
+          [config]="config"></ckeditor>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label"> Content</label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <ckeditor name="content" [(ngModel)]="postContentModel.content" #content="ngModel" [config]="config"></ckeditor>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Tags
+      </label>
+    </div>
+    <div class="col-md-10">
+      <div class="form-group">
+        <select class="form-control form-filter input-sm" id="tagsAutocomplete" multiple="multiple">
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <!-- <div class="col-md-2">
+          <label class="control-label">Publish date</label>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
+            <input type="checkbox" name="isFeaturePost" [(ngModel)]="postContentModel.publishDateUtc" #publishDateUtc="ngModel" />
+          </div>
+        </div> -->
+    <div class="col-md-2">
+      <label class="control-label">Display order
+      </label>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <input class="form-control" type="number" name="displayOrder" [(ngModel)]="postContentModel.displayOrder"
+          #displayOrder="ngModel" placeholder="Display order" />
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label class="control-label">Author
+      </label>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <select class="form-control form-control-sm" [(ngModel)]="postContentModel.authorId" name="authorId" #authorId="ngModel">
+          <option *ngFor="let item of authors" [ngValue]="item.value">{{item.text}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <label class="control-label">Status
+      </label>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <select class="form-control form-control-sm" [(ngModel)]="postContentModel.status" name="status" #status="ngModel"
+          required>
+          <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <label class="control-label">Feature post</label>
+    </div>
+    <div class="col-md-4">
+      <div class="form-group">
+        <input type="checkbox" name="isFeaturePost" [(ngModel)]="postContentModel.isFeaturePost" #isFeaturePost="ngModel" />
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12 text-right">
+      <button type="button" class="btn btn-success" (click)="onSubmit(frmTabInfo)">
+        <i class='fa fa-spinner fa-spin'></i>Next</button>
+    </div>
+  </div>
+</form>

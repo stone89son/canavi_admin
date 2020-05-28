@@ -1,0 +1,97 @@
+<div id="authors-addOrChange" class="modal fade" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="portlet light portlet-fit portlet-form bordered">
+              <div class="portlet-title">
+                <div class="caption">
+                  <i class="icon-settings font-red"></i>
+                  <span *ngIf='author.id==null || id?.length <= 0' class="caption-subject font-red sbold uppercase">Add</span>
+                  <span *ngIf='author.id?.length>0' class="caption-subject font-red sbold uppercase">Update</span>
+                </div>
+              </div>
+              <div class="portlet-body">
+                <form action="#" id="attribute-add-or-change" (ngSubmit)="onSave(authorAddOrChange)" #authorAddOrChange="ngForm" class="form-horizontal">
+                  <div class="form-body">
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Name
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9" [ngClass]="{ 
+                                            'has-error': (name.errors && (name.dirty || name.touched)) 
+                                            || (!formValid && name.errors),
+                                            'has-success': !name.errors }">
+                        <input type="text" name="name" class="form-control" placeholder="Enter name" [(ngModel)]="author.name" minlength="1" maxlength="500"
+                          #name="ngModel" required />
+                        <span class="help-block required" *ngIf="(name.invalid && (name.dirty  || name.touched))
+                                                    || (!formValid && name.errors)">
+                          <p class="required" *ngIf="name?.errors?.required">Name is required.
+                          </p>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Position
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <input type="text" class="form-control" placeholder="Enter position" name="position" [(ngModel)]="author.position" #position="ngModel"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Avatar
+                      </label>
+                      <div class="col-md-5" style="height:50%">
+                        <app-file-upload maxFiles="1" maxSize="3" fileExt="JPG, GIF, PNG, JPEG" imageUrl="{{author.fullUrlOrigin}}">
+                        </app-file-upload>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Short description
+                      </label>
+                      <div class="col-md-9">
+                        <textarea class="form-control" rows="3" placeholder="Enter short description" name="shortDescription" [(ngModel)]="author.shortDescription"
+                          #shortDescription="ngModel"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Description
+                      </label>
+                      <div class="col-md-9">
+                        <textarea class="form-control" rows="3" placeholder="Enter description" name="description" [(ngModel)]="author.description"
+                          #description="ngModel"></textarea>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label col-md-3">Status
+                        <span class="required"> * </span>
+                      </label>
+                      <div class="col-md-9">
+                        <div [ngClass]="{'has-success': status.dirty && status.value!=''}">
+                          <select class="form-control form-filter input-sm" [(ngModel)]="author.status" name="status" #status="ngModel">
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-actions">
+                    <div class="row">
+                      <div class="col-md-offset-3 col-md-9 text-right">
+                        <button type="submit" class="btn green">Save</button>
+                        <button type="button" class="btn grey-salsa btn-outline" data-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

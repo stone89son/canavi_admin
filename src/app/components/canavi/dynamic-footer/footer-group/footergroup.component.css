@@ -1,0 +1,10 @@
+table > thead > tr > th, table > tbody > tr, table > tbody > tr > th{
+    text-align: center;
+}
+
+.text-url-cover{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+}

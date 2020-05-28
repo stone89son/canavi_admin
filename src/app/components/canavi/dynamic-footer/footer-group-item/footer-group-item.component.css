@@ -1,0 +1,14 @@
+table > thead > tr > th, table > tbody > tr, table > tbody > tr > th{
+    text-align: center;
+}
+
+.modal-lg {
+    width: 80%;
+}
+
+.text-url-cover{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 500px;
+}

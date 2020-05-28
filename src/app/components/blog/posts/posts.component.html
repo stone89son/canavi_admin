@@ -1,0 +1,104 @@
+<div class="row">
+    <div class="col-md-12">
+        <!-- BEGIN SAMPLE TABLE PORTLET-->
+        <div class="portlet light bordered">
+            <div class="portlet-title">
+                <div class="caption">
+                    <i class="icon-settings font-red"></i>
+                    <span class="caption-subject font-red sbold uppercase">Posts</span>
+                </div>
+                <div class="actions">
+                    <button [routerLink]="['/g/blog-posts/search-category']" type="button" class="btn blue btn-outline">
+                        <i class="fa fa-plus"></i>
+                        <span class="ladda-label"> Add</span>
+                    </button>
+                </div>
+            </div>
+            <div class="portlet-body">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Title</label>
+                        <input type="text" class="form-control" [(ngModel)]="searchParams.title" placeholder="Enter keyword">
+                    </div>                    
+                    <div class="col-md-4">
+                        <label>Feature Post</label>
+                        <select class="form-control form-filter input-sm" [(ngModel)]="searchParams.isFeaturePost" name="isFeaturePost" #isFeaturePost="ngModel">
+                            <option [ngValue]="null">All</option>
+                            <option [ngValue]="true">Yes</option>
+                            <option [ngValue]="false">No</option>
+                        </select>
+                    </div>                    
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <label>Category</label>
+                        <select class="form-control form-filter input-sm" [(ngModel)]="categoryId" name="categoryName"
+                            #categoryName="ngModel">
+                            <option *ngFor="let item of categories" [ngValue]="item.value">{{item.text}}</option>
+                        </select>
+                    </div>                                     
+                    <div class="col-md-4">
+                        <label>Status</label>
+                        <select class="form-control form-filter input-sm" [(ngModel)]="status" name="statusName"
+                            #statusName="ngModel">
+                            <option *ngFor="let item of statuses" [ngValue]="item.value">{{item.text}}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-1">
+                        <label class="col-md-12" style="color: #fff">Search</label>
+                        <button type="button" class="btn blue" (click)="onSearch()"><i class="fa fa-search"></i> Search</button>
+                    </div>
+                </div>
+                <div class="table-scrollable">
+                    <table class="table table-hover table-light">
+                        <thead>
+                            <tr>
+                                <!-- <th style="width: 6%"> # </th> -->
+                                <th> Title </th>
+                                <th> Category </th>
+                                <th> Thumnail </th>
+                                <th> Author </th>
+                                <th> PublishDateUtc </th>
+                                <th> FeaturePost </th>
+                                <th> Status </th>
+                                <th style="width: 15%"> Action </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of posts | paginate: {id:'pagingControl', itemsPerPage: pageSize, currentPage: pageIndex, totalItems: totalRow }">
+                                <td><a [attr.href]="item.url" target="_blank">{{item.title}}</a></td>
+                                <td> {{item.categoryName}} </td>
+                                <td> <img src="{{item.fullUrlOrigin}}" style="width: 300px;"/> </td>
+                                <td> {{item.authorName}} </td>
+                                <td> {{item.publishDateUtc | date: 'dd/MM/yyyy'}} </td>
+                                <td>
+                                    <span *ngIf="item.isFeaturePost"> Yes</span>
+                                    <span *ngIf="!item.isFeaturePost"> No</span>
+                                </td>
+                                <td> {{item.statusName}} </td>
+                                <td>
+                                    <button type="button" [routerLink]="['/g/blog-posts', item.id]" class="btn btn-danger mt-ladda-btn ladda-button">
+                                        <i class="fa fa-pencil"></i>
+                                        <span class="ladda-label"> Edit</span>
+                                    </button>                                    
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 col-sm-5">
+                    <div class="dataTables_info">{{totalRow}} items</div>
+                </div>
+                <div class="col-md-7 col-sm-7 text-right">
+                    <pagination-controls id="pagingControl" (pageChange)="pageChanged($event)" maxSize="5" directionLinks="true" autoHide="true"
+                        responsive="true" previousLabel="Previous" nextLabel="Next">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+        <!-- END SAMPLE TABLE PORTLET-->
+    </div>
+</div>
