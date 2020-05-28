@@ -34,7 +34,7 @@
     "file-saver": "^2.0.2",
     "font-awesome": "^4.7.0",
     "hammerjs": "^2.0.8",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "jstree": "^3.3.6",
     "ng-fullcalendar": "^1.6.2",
     "ng-select2": "^1.2.2",
